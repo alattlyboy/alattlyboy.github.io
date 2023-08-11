@@ -1,0 +1,112 @@
+
+a:hover{
+    color:brown;
+}
+
+.one{
+    padding-left:50px;
+  
+}
+.help{
+padding-left:50px ;
+
+}
+.help ul{
+    display: flex;
+ 
+}
+.help li{
+     margin:10px ; 
+    color: rgb(77, 73, 73);
+    
+}
+.help a{
+    color:  rgb(77, 73, 73);;
+}
+
+.test1{
+    
+    /* height:2000px; */
+    /* text-align: center; */
+    display: flex; 
+}
+.logo img{
+ 
+    margin-top: 20px;
+    width:50px;
+    height:50px;
+
+}
+.logo{
+    /* padding-left: 50px; */
+width:900px;
+height: 70px;
+display: flex;
+justify-content: center;
+}
+
+
+
+.xian{
+    text-align:center;
+   margin-top: 100px;
+    width:800px;
+    padding:0px 20px;
+  
+    font-size:20px;
+     
+    font-weight: bolder;
+}
+.xian span{
+    padding-left: 150px;
+}
+
+
+.zhaohao{
+ 
+    width:300px;
+    height:50px;
+    text-align: left;
+    background-color: darkgrey;
+  display: block;/*指定对象为块元素*/
+   
+}
+.denglu{
+    width:1300px;
+    display: flex;
+ justify-content: center;
+}
+.dl{
+    margin-top: 10px;
+   
+} 
+    
+    .dl span{
+    margin-top: 10px;
+    color:aliceblue;
+    padding: 10px 140px;
+    background-color: chocolate;
+}
+
+
+.d-yuedu span{
+    color:gray;
+   
+ margin: 20px;
+}
+.d-yuedu {
+    padding:20px  0px;
+}
+.d-yuedu a{
+    color: black;
+   
+}
+.d-wang{
+    padding:20px 0px;
+ 
+}
+.d-wang a{
+ 
+ color:chocolate;
+ padding-right:50px;
+}
