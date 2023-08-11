@@ -1,0 +1,536 @@
+html{
+    /*页面滚动条滑动*/
+    scroll-behavior: smooth;
+}
+.one{
+    height: 2600px;
+    background-image: url(../image/背景5.png);
+  background-repeat: no-repeat;
+  background-size:cover;
+  justify-content: center;
+  /* background-position:fixed; */
+}
+.ziti{
+  color:aliceblue;
+  margin:5% ;
+}
+.ziti2{
+    margin-left: 2%;
+}
+.round00{
+    margin-left: 5%;
+}
+.round00 h1{
+    margin-left: 25%;
+}
+.round1{
+    height: 150px;
+    width: 150px;
+    border: 10px solid #000;
+    border-radius: 100%;
+    margin-left: 10%;
+    background-image: url(../image/round1.png);
+background-size:cover;
+    background-repeat: no-repeat;
+}
+.round2{
+    height: 150px;
+     width: 150px;
+    border: 10px solid #000; 
+    border-radius: 100%;
+    margin-left: 10%;
+    background-image: url(../image/round2.jpg);
+    background-size:cover;
+    background-repeat: no-repeat;
+}
+.round3{
+    height: 150px;
+    width: 150px;
+    border: 10px solid #000;
+    border-radius: 100%;
+    margin-left: 10%;
+    background-image: url(../image/round3.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.round{
+   margin-top: 28%;
+   display: flex;
+  
+    text-align: center;
+    justify-content: center;
+}
+
+.jsms h1{
+    text-align: center;
+    margin: 2%;
+}
+.jsms h3{
+
+    background-color: black;
+    opacity: 0; 
+    color: aliceblue;
+   padding:5px;
+    text-align: center;
+  
+   
+}
+.jsms h3:hover{
+  
+    opacity: 0.7;
+}
+.jsms ul{
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+.jsms li{
+    margin-left: 20px;
+}
+.jsms h4{
+    text-align: center;
+    background-color: black;
+   opacity: 0.7;
+    color: aliceblue;
+   padding:5px;
+    text-align: center;
+
+}
+.wutaishan{
+  width:220px;
+  height: 150px;
+  background-image: url(../image/五台山.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.wutaishan:hover{
+    width: 250px;
+    height: 180px;
+  
+}
+.yungangshiku{
+    width:220px;
+    height: 150px;
+    background-image: url(../image/云冈石窟.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+.yungangshiku:hover{
+    width: 250px;
+    height: 180px;
+  
+}
+.pingyaogucheng{
+    width:220px;
+    height: 150px;
+    background-image: url(../image/平遥古城.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .pingyaogucheng:hover{
+    width: 250px;
+    height: 180px;
+  
+}
+  .qiaojiadayuan{
+    width:220px;
+    height: 150px;
+    background-image: url(../image/乔家大院.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .qiaojiadayuan:hover{
+    width: 250px;
+    height: 180px;
+  
+}
+  .huangchengxiangfu{
+    width:220px;
+    height: 150px;
+    background-image: url(../image/皇城相府.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .huangchengxiangfu:hover{
+    width: 250px;
+    height: 180px;
+  
+}
+.mianshan{
+    width:220px;
+    height: 150px;
+    background-image: url(../image/绵山.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.mianshan:hover{
+    width: 250px;
+    height: 180px;
+  
+}
+.yanmen{
+    width:220px;
+    height: 150px;
+    background-image: url(../image/雁门关.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.yanmen:hover{
+    width: 250px;
+    height: 180px;
+  
+}
+.dahuaishu{
+    width:220px;
+    height: 150px;
+    background-image: url(../image/洪洞大槐树.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.dahuaishu:hover{
+    width: 250px;
+    height: 180px;
+  
+}
+.jinci{
+    width:220px;
+    height: 150px;
+    background-image: url(../image/晋祠.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.jinci:hover{
+    width: 250px;
+    height: 180px;
+  
+}
+.huanghelou{
+    width:220px;
+    height: 150px;
+    background-image: url(../image/黄鹤楼.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.huanghelou:hover{
+    width: 250px;
+    height: 180px;
+  
+}
+.jsms h2{
+    text-align: center;
+    margin: 2%;
+}
+/*美食*/
+.tsxc{
+        text-align: center;
+        margin: 2%;
+    }
+    .tsxc h3{
+    
+        background-color: black;
+        opacity: 0; 
+        color: aliceblue;
+       padding:5px;
+        text-align: center;
+      
+       
+    }
+    .tsxc h3:hover{
+      
+        opacity: 0.7;
+    }
+    .tsxc ul{
+        display: flex;
+        justify-content: center;
+        margin: 20px;
+    }
+    .tsxc li{
+        margin-left: 20px;
+    }
+    .tsxc h4{
+        text-align: center;
+        background-color: black;
+       opacity: 0.7;
+        color: aliceblue;
+       padding:5px;
+        text-align: center;
+    
+    }
+    .tsxc h2{
+        text-align: center;
+        margin: 2%;
+    }
+
+.daoxiaomian{
+    width:220px;
+    height: 150px;
+    background-image: url(../image/刀削麵.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.daoxiaomian:hover{
+    width: 250px;
+    height: 180px;
+  
+}
+.meishi{
+    width:220px;
+    height: 150px;
+    /* border: 2px solid #000; */
+    /* background-color: aliceblue; */
+    opacity: 0.7;
+}
+.meishi h5{
+    color: aliceblue;
+    font-size:larger;
+    font-weight: bolder;
+    text-align: center;
+}
+.meishi:hover{
+    width: 250px;
+    height: 180px;
+  
+}
+.wantu{
+    width:220px;
+    height: 150px;
+    background-image: url(../image/碗禿.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.wantu:hover{
+    width: 250px;
+    height: 180px;
+  
+}
+.kaolaolao{
+    width:220px;
+    height: 150px;
+    background-image: url(../image/栲栳栳.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.kaolaolao:hover{
+    width: 250px;
+    height: 180px;
+}
+.taigubing{
+    width:220px;
+    height: 150px;
+    background-image: url(../image/太谷餅.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.taigubing:hover{
+    width: 250px;
+    height: 180px;
+}
+.liangfen{
+    width:220px;
+    height: 150px;
+    background-image: url(../image/太谷餅.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.liangfen:hover{
+    width: 250px;
+    height: 180px;
+}
+
+.jiuwomian{
+    width:220px;
+    height: 150px;
+    background-image: url(../image/酒窩面.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.jiuwomian:hover{
+    width: 250px;
+    height: 180px;
+}
+.guoyourou{
+    width:220px;
+    height: 150px;
+    background-image: url(../image/過油肉.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.guoyourou:hover{
+    width: 250px;
+    height: 180px;
+}
+.shijinhuiguo{
+    width:220px;
+    height: 150px;
+    background-image: url(../image/平遙牛肉.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.shijinhuiguo:hover{
+    width: 250px;
+    height: 180px;
+}
+.shizimo{
+    width:220px;
+    height: 150px;
+    background-image: url(../image/石子饃.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.shizimo:hover{
+    width: 250px;
+    height: 180px;
+}
+/**/
+.ylxm{
+    text-align: center;
+    margin: 2%;
+    display: flex;
+}
+.ylxm h3{
+
+    background-color: black;
+    opacity: 0; 
+    color: aliceblue;
+   padding:5px;
+    text-align: center;
+  
+   
+}
+.ylxm1 h1{
+    width: 100px ;
+    height: 300px;
+   padding:98px 40px;
+   border: 1px solid  #000;
+   background-color: aliceblue;
+}
+.ylxm1 h1:hover{
+    height: 150px;
+    height: 350px;
+}
+.ylxm h3:hover{
+  
+    opacity: 0.7;
+}
+.ylxm2{
+    display: flex;
+    justify-content: center;
+    margin:20px 0px  20px 20px;
+}
+/* .ylxm h4{
+    text-align: center;
+    background-color: black;
+   opacity: 0.7;
+    color: aliceblue;
+   padding:6px;
+    text-align: center;
+
+} */
+.ylxm1 {
+    margin-left: 40px; 
+}
+.ylxm1 h4{
+    text-align: center;
+    background-color: black;
+   opacity: 0.7;
+    color: aliceblue;
+   padding:6px;
+    text-align: center;
+
+}
+
+.ylxm ul{
+   
+    margin: 20px;
+    
+}
+.ylxm3 h4{
+    text-align: center;
+    background-color: black;
+   opacity: 0.7;
+    color: aliceblue;
+   padding:5px;
+    text-align: center;
+
+}
+.ylxm h2{
+    text-align: center;
+    margin: 2%;
+}
+
+
+.datongfangte{
+    width:460px;
+    height: 300px;
+    background-image: url(../image/大同方特.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.datongfangte:hover{
+    width: 500px;
+    height: 350px;
+}
+.taihanghuanlegu{
+    width:220px;
+    height: 115px;
+    background-image: url(../image/太行欢乐谷.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.taihanghuanlegu:hover{
+    width: 250px;
+    height: 165px;
+}
+.menghuanheishuileyuan{
+    width:180px;
+    height: 115px;
+
+    background-image: url(../image/孝义.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+.menghuanheishuileyuan:hover{
+    height: 230px;
+    height: 165px;
+}
+.sanjin{
+    width:450px;
+    height: 465px;
+    background-image: url(../image/三晋乐园.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.sanjin:hover{
+    width: 500px;
+    height: 510px;
+}
+.ylxm3{
+    display: flex;
+}
+.ylxm3 ul{
+    margin-bottom: 35px;
+  
+    justify-content: center;
+}
+.ylxm3 li{
+    margin-left: 10px;
+}
+.dixia{
+    display: flex;
+    padding: 0 0;
+
+}
+
+
+.dierming{
+    padding-top: 20px;
+}
+.jiazai{
+    text-align: center;
+}
+
+

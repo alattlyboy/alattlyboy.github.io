@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册</title>
+<link rel="stylesheet" href="../css部分/whole.css">
+    <link rel="stylesheet" href="../font2/iconfont.css">
+    <link rel="stylesheet" href="../css部分/晋旅网手机登录.css">
+</head>
+<body><div class="head">
+    
+   <ul>
+    <li> <a href="../网页部分/晋旅网登录界面.html">请登录</a> 或
+   <a href="../网页部分/晋旅手机注册.html">免费注册</a></li>|
+    <li> <a href="#">我的订单</a></li>|
+    <li> <a href="#">积分商城</a></li>|
+    <li> <a href="#">联系客服</a></li>|
+    <li> <a href="#"><span class="iconfont icon-shouji"></span>手机版</a></li>
+
+   </ul><br>
+  <div class="head-text">
+   <img src="../image/logo.png" class="logo1">
+     <a href="#">首页</a>        
+     <a href="#">机票</a>
+     <a href="#">酒店</a>
+     <a href="#">团购</a>
+     <a href="#">套餐</a>
+     <a href="#">门票</a>
+     <a href="#">热门地</a>
+     <a href="#">攻略</a>
+     <a href="#">公寓</a>
+     <a href="#">当地人</a>
+     <a href="#">游记</a>
+     <a href="#">定制游</a>
+     <a href="#">客户端</a>
+    <a href="#"><img src="../image/电话.jpg"></a>
+     
+
+  </div>
+</div> 
+
+    <div class="denglu">
+   
+        <div class="denglu1">
+          <div class="xyxc">
+            
+           <h1>新用户注册</h1><br>
+           <h3><a href="#">扫码登录</a></h3>
+           
+           
+            <div class="er"></div>
+          
+          </div>
+          <div class="jldl">
+           <from>
+               <span class="jl">晋旅登录</span>
+               <ul> 
+                <li class="yz">用户名<input type="text" placeholder="请设置用户名" id="shojihao"></li><br>
+           <li class="zh"> 账号<input type="text" placeholder="请输入手机号" id="shojihao1"></li><br>
+           <li class="zh">密码<input type="password" placeholder="请输入0-9密码" id="password"></li><br>
+           <li class="qr">确认密码<input type="password" placeholder="请输入上面的密码" id="password2"></li><br>
+
+           <li class="qr">短信验证<input  type="text" placeholder="请输入验证码" id="yanzhengma"></li>
+           <img src="../image/R-C.png">
+           </ul>
+         </from>
+          <div class="tk">
+           
+           
+           <input type="checkbox">
+          我已同意<span>《服务条款》</span>和<span>《登录条款》</span>
+      
+           </div>
+           <button class="dl" id="dl" onclick="toVaild()">登录</button>
+          <script language="javascript">
+            function toVaild(){
+  
+                  var valname = document.getElementById("shojihao").value;
+                  var valname1 = document.getElementById("shojihao1").value;
+                  var yanzhengma = document.getElementById("yanzhengma").value;
+              var valdmm = document.getElementById("password").value;
+              var valdmm2 = document.getElementById("password2").value;
+             
+              var valdz = document.getElementById("dl").value;
+            
+  
+                  if(valname == ""){
+                      alert("用户名不能为空");
+                         return false;
+                  }
+                 else if(valname == ""){
+                      alert("手机号不能为空");
+                         return false;
+                  }
+                  else if(valdmm2 == ""){
+                      alert("请再依次输入密码");
+                         return false;
+                      
+                  }
+                     else if(valdmm==valdmm2){
+                          return true;
+                         }else if(valdmm!=valdmm2){
+                          alert("请上下密码一致");
+                         return false;
+                         }
+             else if(valdmm == ""){
+                 alert("密码不能为空");
+                     return false;
+             }
+             else if(yanzhengma==""){
+              alert("验证码不能为空");
+                           return false;
+             }
+      
+                  else if(valdz == ""){
+                     
+                           window.location.href="晋旅网首页.html"
+                   }
+      
+  
+           else {
+              return true;
+          
+           }
+               }
+       </script>
+          <div class="mima">
+           <a href="#">忘记密码?</a>
+           <span class="zc"><a href="../网页部分/晋旅手机注册.html">免费注册</a></span><br>
+           
+          </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="wei">
+
+<div class="wei-d"> 
+  <ul>
+
+      <li><a href="#"><span class="da">关于本站</span></a></li>
+      <li><a href="#">山西介绍</a></li>
+      <li><a href="#">团队介绍</a></li>
+      <li><a href="#">旅游度假资源</a></li>
+      <li><a href="#">媒体报道</a></li>
+  </ul>
+  <ul>
+
+    <li><a href="#"><span class="da">联系我们</span></a></li>
+    <li><a href="#">招贤纳士</a></li>
+    <li><a href="#">联系我们</a></li>
+    <li><a href="#">互动留言</a></li>
+    <li><a href="#">意见反馈</a></li>
+</ul>
+<ul>
+
+  <li><a href="#"><span class="da">合作加盟</span></a></li>
+  <li><a href="#">商务合作</a></li>
+  <li><a href="#">合作伙伴</a></li>
+  <li><a href="#">友情链接</a></li>
+
+</ul>
+<ul>
+
+  <li><a href="#"><span class="da">网站条款</span></a></li>
+  <li><a href="#">会员条款</a></li>
+  <li><a href="#">社区指南</a></li>
+  <li><a href="#">版权声明</a></li>
+  <li><a href="#">免费声明</a></li>
+</ul>
+<ul>
+
+  <li><a href="#"><span class="da">其他事项</span></a></li>
+  <li><a href="#">退换游事项</a></li>
+  <li><a href="#">网站优惠政策</a></li>
+  <li><a href="#">退款常见问题</a></li>
+  <li><a href="#">订单取消事项</a></li>
+</ul>
+<div class="weibo"><a href="#">
+  <img src="../image/weibo.png">
+  <h3>点击官方微博</h3></a>
+</div>
+<div class=" er1">
+  <a href="#">
+  <img src="../image/er.png">
+<h3>扫描加官方微信</h3>
+</a>
+</div>
+
+</div>
+
+</div>
+
+<div class="zuiw">
+ <h5>人说山西好风光， 地肥水美五谷香。 左手一指太行山， 右手一指是吕梁</h5>
+<h6> 山西，五千年的历史风云, 欢迎您的到来@shanxi.com</h6></div>
+</body>
+</html>
+</body>
+</html>

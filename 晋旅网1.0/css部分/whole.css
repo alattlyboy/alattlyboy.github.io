@@ -1,0 +1,20 @@
+@media screen and(min-width: 900px) {
+   *{
+    display: block;
+   }
+}
+*{
+list-style:none;/*清除圆点*/
+text-decoration: none;
+margin: 0 0;
+padding: 0;
+justify-content: center;
+
+ white-space:nowrap;/*不换行*/ 
+
+
+}
+
+a{
+    color:black;
+}

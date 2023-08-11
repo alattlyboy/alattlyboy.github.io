@@ -1,0 +1,158 @@
+.head{
+   display: flex;
+   justify-content: center;
+   margin: 30px 0;
+}
+
+*{
+   justify-content: center;
+
+}
+.denglu{
+   height: 600px;
+   background-image: url(../image/图片背景2.jpg);
+   background-repeat: no-repeat;
+   background-size: cover;
+   justify-content: center;
+  
+
+}
+
+.text{
+   margin-top: 80px;
+   justify-content: center;
+
+}
+.text span{
+   /* margin-left: 500px; */
+   color:blue;
+}
+.logo{
+   margin-left: 100px;
+    width: 250px;
+    height: 100px;
+    background-image: url(../image/logo.png);
+    background-repeat: no-repeat;
+    background-size:contain;
+   justify-content: center;
+
+
+ }
+.text a{
+   margin-left: 500px;
+}
+.denglu1 input{
+ 
+    padding:5px 70px; 
+    
+}
+.zh{
+   margin-left: 30px;
+}
+
+ 
+   .qr{
+      margin-left: -10px;
+   }
+
+.denglu1 ul li{
+  
+   justify-content: center;
+   
+   font-size: larger;
+   
+}
+.denglu1{
+   
+   justify-content: center;
+   width: 400px;
+   height: 380px;
+   border: 1px solid cornflowerblue;
+   background-color: #fff ;
+  
+   opacity: 0.7; /*半透明*/
+   padding:20px 60px;
+   position: relative;
+   top: 50px;
+   left: 50%;
+   
+}
+.denglu1 img{
+  width: 100px;
+  height: 50px;
+  margin: 5px  150px;
+}
+.jl{
+ margin:5px 160px;
+ font-size: larger;
+ font-weight: bold;
+}
+.tk {
+   padding-bottom: 10px;
+   margin-left: 20px;
+   display: flex;
+   font-size: larger;
+}
+.tk span{
+  color: blue;
+}
+.dl{
+ padding: 5px  170px;
+ border: 1px solid cornflowerblue;
+   background-color: cornflowerblue;
+
+}
+.zc{
+   margin-left: 235px;
+}
+.mima{
+   padding-top: 20px;
+}
+.from {
+display: flex;
+
+}
+
+  .shoji a{
+   margin-right: 120px;
+   color: black;
+   font-weight: bold;
+}
+
+.shoji:active{
+   text-decoration: underline;
+}
+.shoji:hover{
+   text-decoration: underline;
+}
+.zhdl{
+   margin-left: 120px;
+   
+} 
+.zhdl:active{
+   text-decoration: underline;
+}
+.zhdl:hover{
+   text-decoration: underline;
+}
+.zhdl a{
+   color:black ;
+   font-weight: bold;
+
+}
+.wei ul {
+   display: flex;
+   justify-content: center;
+   margin: 20px 0;
+}
+.wei ul a{
+   margin: 0  10px;
+   color: darkgray;
+}
+.wei  h6{
+ text-align: center;
+ 
+}
+.wei h3{
+   text-align: center;
+}
