@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    账号<input type="text" id="text" ><br>
+    密码<input type="password" id="pwd">
+    <button id="fo">发送</button>
+
+    <script>
+
+    const text = document.getElementById("text")
+    const pwd = document.getElementById("pwd")
+    const fo= document.getElementById("fo")
+    fo.onclick=()=>{
+        if(text.value.length>=5&&text.value.length<12){
+            if (Number(text.value)===123456) {
+             
+                if (pwd.value.length>=5&&pwd.value.length<12) {
+                    if (pwd.value==="s123456") {
+                       alert("账号和密码都正确");} 
+                       else{
+                        alert("密码错误但长度正确")
+                          }
+                } 
+            
+                else{
+                       alert("密码必须是5~11位")}
+          
+           
+                        }           
+            else{
+                alert("账号错误但长度正确")
+            }
+        }
+            else{
+                alert("账号必须是5~11位")
+            } 
+        }
+  
+
+
+
+    </script>
+</body>
+</html>
