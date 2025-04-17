@@ -1,7 +1,11 @@
 /* 整体容器样式 */
+*{
+	margin: 0px;
+	padding: 0px;
+}
 body{
-	/* background-color:WhiteSmoke; */
-	background-color: #f4f4f4;
+
+	 background-color: #f4f4f4; 
 
 }
 html{
@@ -19,11 +23,11 @@ width: 300px;
 /* 整体布局容器 */
 .wai{
   width: 1000px;
-  margin: 0 auto;
+  margin: 10px auto;
 	padding:40px 20px;
-/* 	border-bottom: 1px solid ,rgb(130, 124, 120); */
+	/* border-bottom: 1px solid rgb(130, 124, 120); */
 	background-color:white;
-   box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+   box-shadow: 0 5px 20px ,rgba(0,0,0,0.3);
 	
 }
 .wai div{
