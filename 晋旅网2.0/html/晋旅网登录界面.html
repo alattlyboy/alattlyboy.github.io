@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>晋旅登录界面</title>
+    <link rel="stylesheet" href="../css/晋旅网登录.css">
+    <link rel="stylesheet" href="../css/whole.css">
+    
+</head>   
+<body>
+    <div class="head">
+    <div class="logo"> 
+      </div>
+    <div class="text">
+    <a href="../html/晋旅网首页.html">进入晋旅官网<span>>>></span></a>
+    </div>
+</div>
+       <div class="denglu">
+         <div class="denglu1">
+            <div class="dlf">
+            <sapn class="shoji"><a href="晋旅手机注册.html">手机注册</a>|</sapn>
+            <sapn class="zhdl"><a href="晋旅网登录界面.html">账号登录</a></sapn></div>
+            <br>
+            
+         
+                
+                   <form onblur="toVaild">
+                       <span class="jl">晋旅登录</span>
+                       <ul> 
+                        
+                   <li class="zh"> 账号<input type="text" placeholder="请输入手机号"  id="shojihao" V></li><br>
+                   <li class="zh">密码<input type="password" placeholder="请输入0-9密码" id="password"></li><br>
+                   
+        
+                   <li class="qr">短信验证<input  type="text" placeholder="请输入验证码" id="yanzhengma"></li>
+            
+            <img src="../image/R-C.png"> 
+            </ul>
+         </form>
+     	  <script language="javascript">
+          function toVaild(){
+
+                var valname = document.getElementById("shojihao").value;
+                var yanzhengma = document.getElementById("yanzhengma").value;
+            var valdmm = document.getElementById("password").value;
+           
+            var valdz = document.getElementById("dl").value;
+          
+
+                if(valname == ""){
+                    alert("账号不能为空");
+                       return false;
+                }
+           else if(valdmm == ""){
+               alert("密码不能为空");
+                   return false;
+           }
+           else if(yanzhengma==""){
+            alert("验证码不能为空");
+                         return false;
+           }
+    
+                else if(valdz == ""){
+                   
+                         window.location.href="晋旅网首页.html"
+                 }
+    
+
+         else {
+            return true;
+        
+         }
+             }
+     </script>
+
+           <div class="tk">
+            <input type="checkbox" >我已同意<span>《服务条款》</span>和<span>《登录条款》</span></div>
+            <!-- <a href="../网页部分/晋旅网首页.html"> -->
+              <button class="dl" id="dl" onclick="toVaild()">登录</button>
+            <!-- </a>  -->
+           <div class="mima">
+            <a href="#">忘记密码?</a>
+            <span class="zc"><a href="../html/晋旅手机注册.html">免费注册</a></span><br>
+            
+           </div>
+         </div>
+     </div>
+     <div class="wei">
+      <ul>
+          <li><a href="#">关于我们</a>|</li>
+          <li><a href="#">帮助中心</a>|</li>
+          <li><a href="#">售后服务</a>|</li>
+          <li><a href="#">配送与验收</a>|</li>
+          <li><a href="#">商务合作</a>|</li>
+          <li><a href="#">收搜推荐</a>|</li>
+          <li><a href="#">友情链接</a></li>
+    
+      </ul>
+ 
+
+  
+     <h3>人说山西好风光， 地肥水美五谷香。 左手一指太行山， 右手一指是吕梁</h3><br>
+   <h6> 山西，五千年的历史风云,欢迎您的到来</h6></div>
+</body>
+</html>

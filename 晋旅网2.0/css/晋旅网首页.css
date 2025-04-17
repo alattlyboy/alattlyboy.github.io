@@ -1,0 +1,129 @@
+html{
+   /*页面滚动条滑动*/
+   scroll-behavior: smooth;
+}
+*{
+   margin: 0;
+   padding: 0;
+}
+
+.theme{
+   
+   border: 1px solid #000;
+   justify-content: center;
+}
+
+.head{
+   background-color:cadetblue;
+
+}
+.head a:active{
+border-bottom:1px solid black ;
+}
+.head ul{
+   margin-left: 800px;
+   display: flex;
+   
+}
+.head li{
+   padding:0 5px;
+} 
+/* .logo{
+   margin-left: 100px;
+} */
+.head-text{
+
+ display: flex;
+ padding:10px 20px 10px 150px;
+ 
+}
+
+.head-text a{
+  margin-left: 25px;
+  
+  line-height: 50px;
+}
+.logo1{
+  width:150px;
+  height: 50px;
+  
+}
+.iframeWrap{
+	width:100%;
+	overflow:hidden;/*若超出给定宽和高的属性， 那么超出部分被隐藏，不占位置*/
+	}
+	iframe{
+	width:103%;
+	height: 2700px;}
+/**/
+.wei{
+   background-color:cadetblue;
+   padding: 10px;
+   
+}
+.wei-d{
+   display: flex;
+}
+.wei-d ul{
+   margin-right: 130px;
+}
+
+.wei ul {
+  /* border-top:1px solid  #fff ; */
+   
+   /* justify-content: center; */
+   /* margin: 20px 0; */
+   
+   
+  
+   margin-bottom: 15px;
+}
+.wei ul a{
+   margin: 0  10px;
+   color: #fff;
+  
+}
+.zuiw{
+   background-color: darkgray;
+}
+.zuiw   h6{
+ text-align: center;
+ color:#fff;
+}
+.zuiw h5{
+   text-align: center;
+   color:#fff;
+
+  
+}
+.weibo a{
+   color: #fff;
+   text-align: center;
+}
+.weibo{
+   padding: 10px;
+   text-align: center;
+}
+.da{
+   font-size: larger;
+   margin-bottom: 20px;
+}
+.da:hover{
+   border-bottom:1px solid #fff ;
+} 
+.weibo img{
+  width: 80px;
+  height: 80px;
+}
+.er1 a{
+   
+   color:#fff;
+}
+.er1 img{
+   width: 80px;
+   height: 80px;
+}
+.er1 {
+   padding: 10px;
+   text-align: center;
+}
