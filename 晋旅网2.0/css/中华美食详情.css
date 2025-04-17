@@ -9,7 +9,12 @@ html{
     scroll-behavior: smooth;
 }
 .meishituijian{
-	padding:20px 0px;
+width: 300px;
+/* margin: 0 auto; */
+}
+.meishituijiandiv{
+	width: 1000px;
+	margin: 0 auto;
 }
 /* 整体布局容器 */
 .wai{
