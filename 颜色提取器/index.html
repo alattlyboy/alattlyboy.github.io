@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能调色板</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .color-preview {
+            width: 200px;
+            height: 200px;
+            border: 2px solid #000;
+            margin-bottom: 20px;
+        }
+        .slider-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .slider-label {
+            margin-bottom: 5px;
+        }
+        .slider {
+            width: 280px;
+        }
+        .color-info {
+            margin-top: 20px;
+        }
+        .color-picker {
+            width: 200px;
+            height: 200px;
+            border: 2px solid #000;
+            margin-bottom: 20px;
+            position: relative;
+            cursor: crosshair;
+        }
+        .color-picker-point {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            position: absolute;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="color-picker" id="color-picker">
+        <div class="color-picker-point" id="color-picker-point"></div>
+    </div>
+    <div class="color-preview" id="color-preview"></div>
+    <div class="slider-container">
+        <label class="slider-label">红色 (R)</label>
+        <input type="range" class="slider" id="red-slider" min="0" max="255" value="0" oninput="updateColor()">
+    </div>
+    <div class="slider-container">
+        <label class="slider-label">绿色 (G)</label>
+        <input type="range" class="slider" id="green-slider" min="0" max="255" value="0" oninput="updateColor()">
+    </div>
+    <div class="slider-container">
+        <label class="slider-label">蓝色 (B)</label>
+        <input type="range" class="slider" id="blue-slider" min="0" max="255" value="0" oninput="updateColor()">
+    </div>
+    <div class="slider-container">
+        <label class="slider-label">透明度 (A)</label>
+        <input type="range" class="slider" id="alpha-slider" min="0" max="1" step="0.01" value="1" oninput="updateColor()">
+    </div>
+    <div class="color-info" id="color-info">
+        <p>RGBA: <span id="rgba-value">0, 0, 0, 1</span></p >
+        <p>Hex: <span id="hex-value">#000000</span></p >
+    </div>
+
+    <script>
+        function updateColor() {
+            const red = document.getElementById('red-slider').value;
+            const green = document.getElementById('green-slider').value;
+            const blue = document.getElementById('blue-slider').value;
+            const alpha = document.getElementById('alpha-slider').value;
+
+            const colorPreview = document.getElementById('color-preview');
+            colorPreview.style.backgroundColor = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+
+            const rgbaValue = document.getElementById('rgba-value');
+            rgbaValue.textContent = `${red}, ${green}, ${blue}, ${alpha}`;
+
+            const hexValue = document.getElementById('hex-value');
+            hexValue.textContent = `#${componentToHex(red)}${componentToHex(green)}${componentToHex(blue)}`;
+        }
+
+        function componentToHex(c) {
+            const hex = Math.round(c).toString(16);
+            return hex.length === 1 ? '0' + hex : hex;
+        }
+
+        // 初始化调色板
+        updateColor();
+
+        // 颜色选择器
+        const colorPicker = document.getElementById('color-picker');
+        const colorPickerPoint = document.getElementById('color-picker-point');
+
+        colorPicker.addEventListener('mousemove', (event) => {
+            const rect = colorPicker.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            const red = Math.floor((x / rect.width) * 255);
+            const green = Math.floor((y / rect.height) * 255);
+            const blue = Math.floor((1 - (y / rect.height)) * 255); // Y轴影响蓝色值
+            const alpha = document.getElementById('alpha-slider').value; // 使用透明度滑动条的值
+
+            document.getElementById('red-slider').value = red;
+            document.getElementById('green-slider').value = green;
+            document.getElementById('blue-slider').value = blue;
+            updateColor();
+
+            colorPickerPoint.style.left = `${x - 5}px`;
+            colorPickerPoint.style.top = `${y - 5}px`;
+        });
+
+        colorPicker.addEventListener('click', (event) => {
+            const rect = colorPicker.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            const red = Math.floor((x / rect.width) * 255);
+            const green = Math.floor((y / rect.height) * 255);
+            const blue = Math.floor((1 - (y / rect.height)) * 255); // Y轴影响蓝色值
+            const alpha = document.getElementById('alpha-slider').value; // 使用透明度滑动条的值
+
+            document.getElementById('red-slider').value = red;
+            document.getElementById('green-slider').value = green;
+            document.getElementById('blue-slider').value = blue;
+            updateColor();
+        });
+    </script>
+</body>
+</html>
