@@ -1,0 +1,89 @@
+* {
+    padding:0;
+    margin:0;
+   box-sizing: border-box;
+    }
+    
+    body{
+   display: grid;
+   place-items: center;
+    min-height:100vh;
+   width:100vw;
+    font-family: Arial, sans-serif;
+    }
+    
+    .countdown{
+    display: none;
+    color: green;
+    font-size:10rem;
+    font-weight:900;
+    background-color:rgba(0,0,0,0.5);
+    position: absolute;
+    inset:0;
+    z-index:10000;
+    place-items: center;
+    }
+    
+    .screen-recorder{
+    display: flex;
+   flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap:2rem;
+    width:90%;
+   max-width:1000px;
+   padding:2rem;
+    background-color:#f7fafc;
+    color:#202020;
+    }
+    
+    .screen-recorder video{
+    width:100%;
+    max-width:782px;
+    max-height:440px;
+    box-shadow:4px 4px 10px rgba(0,0,0,0.2), -4px -4px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    h1{
+   text-transform: capitalize;
+   font-size:3rem;
+    font-weight: bold;
+    color:#202020;
+    }
+    
+    .btn{
+    background-color:#428bca;
+    color:#fff;
+    font-weight:900;
+    padding:0.75rem 1.5rem;
+    border-radius:0.5rem;
+    cursor: pointer;
+    text-transform: capitalize;
+    border:1px solid #428bca;
+    transition: background-color 0.3s ease;
+    }
+    
+    .btn:hover{
+    background-color:#357ec7;
+    }
+    
+    a{
+    text-decoration: none;
+    margin-inline-start:20px;
+    }
+    
+    @media(max-width:768px) {
+    .screen-recorder video {
+    width:100%;
+   height: auto;
+    }
+    
+    h1{
+    font-size:2.5rem;
+     }
+    
+    .btn{
+   padding:0.5rem1rem;
+  font-size:1rem;
+    }
+    }
