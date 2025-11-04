@@ -1,0 +1,187 @@
+:root { 
+   --bg: #ffffff; 
+   --text: #1a1a1a; 
+   --subtext: #4d4d4d; 
+   --border: #e5e5e5; 
+   --shadow: 0 8px 24px rgba(0,0,0,0.12); 
+   --shadow-heavy: 0 20px 48px rgba(0,0,0,0.16); 
+   --overlay: rgba(0, 0, 0, 0.4); 
+   --accent: #0078d4; /* Windows 蓝 */ 
+ }
+ 
+ * { box-sizing: border-box; }
+ html, body { height: 100%; }
+ body {
+   margin: 0;
+   background: linear-gradient(135deg, #f0f4f8 0%, #e8eef5 50%, #dfe7f0 100%);
+   color: var(--text);
+   font-family: "Noto Sans SC", Segoe UI, system-ui, -apple-system, Roboto, Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+   overflow: hidden;
+ }
+ 
+ #popup-layer {
+   position: fixed;
+   inset: 0;
+   pointer-events: none; /* 允许下层点击通过（初始 modal 期间被遮罩覆盖） */
+ }
+ 
+ /* 入场弹窗 */
+ .modal-backdrop {
+   position: fixed;
+   inset: 0;
+   background: var(--overlay);
+   display: grid;
+   place-items: center;
+   z-index: 9999;
+ }
+ 
+ .modal {
+   width: min(92vw, 520px);
+   background: #ffffff;
+   border: 1px solid var(--border);
+   border-radius: 8px;
+   box-shadow: var(--shadow-heavy);
+   text-align: left;
+   overflow: hidden;
+   animation: modal-appear 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+ }
+ 
+ .modal .titlebar {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   padding: 12px 14px;
+   background: #f3f3f3;
+   border-bottom: 1px solid var(--border);
+ }
+ 
+ .modal .titlebar .icon { font-size: 18px; }
+ .modal .titlebar .title { font-weight: 700; }
+ 
+ .modal .content { padding: 16px 16px 8px; color: var(--subtext); }
+ .modal .actions { padding: 0 16px 16px; display: flex; gap: 10px; justify-content: flex-end; }
+ 
+ .btn {
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   gap: 8px;
+   height: 36px;
+   padding: 0 14px;
+   border-radius: 4px;
+   border: 1px solid var(--border);
+   cursor: pointer;
+   font-weight: 600;
+   letter-spacing: .2px;
+   background: #f7f7f7;
+ }
+ 
+ .btn.primary { background: var(--accent); color: #fff; border-color: #0a6ecf; }
+ .btn:hover { filter: brightness(0.98); }
+ .btn.primary:hover { filter: brightness(1.05); }
+ .btn:active { transform: translateY(1px); }
+ 
+ /* 屏幕弹窗（温馨提示） */
+ .popup {
+   position: absolute;
+   width: 230px;
+   color: var(--text);
+   background: #ffffff;
+   border-radius: 7px;
+   border: 1px solid var(--border);
+   box-shadow: 0 4px 16px rgba(0,0,0,0.15), 0 8px 32px rgba(0,0,0,0.08);
+   font-size: 13px;
+   line-height: 1.4;
+   pointer-events: none;
+   user-select: none;
+   transform-origin: center;
+   overflow: hidden;
+ }
+ 
+ .popup .header {
+   display: flex;
+   align-items: center;
+   gap: 4px;
+   padding: 3px 8px;
+   background: #f3f3f3;
+   border-bottom: 1px solid var(--border);
+ }
+ .popup .header .icon { font-size: 12px; }
+ .popup .header .title { font-weight: 800; font-size: 11px; }
+ 
+ .popup .content { padding: 6px 10px; color: var(--text); font-size: 18px; font-weight: 600; line-height: 1.25; text-align: center; }
+ 
+ /* 不同颜色主题的弹窗背景 */
+ .popup.theme-blue .header { background: #e3f2fd; border-bottom-color: #bbdefb; }
+ .popup.theme-blue .content { background: #f1f8ff; }
+ 
+ .popup.theme-green .header { background: #e8f5e9; border-bottom-color: #c8e6c9; }
+ .popup.theme-green .content { background: #f1f8f4; }
+ 
+ .popup.theme-orange .header { background: #fff3e0; border-bottom-color: #ffe0b2; }
+ .popup.theme-orange .content { background: #fffaf3; }
+ 
+ .popup.theme-purple .header { background: #f3e5f5; border-bottom-color: #e1bee7; }
+ .popup.theme-purple .content { background: #faf5fc; }
+ 
+ .popup.theme-pink .header { background: #fce4ec; border-bottom-color: #f8bbd0; }
+ .popup.theme-pink .content { background: #fff0f5; }
+ 
+ .popup.theme-yellow .header { background: #fffde7; border-bottom-color: #fff9c4; }
+ .popup.theme-yellow .content { background: #fffef7; }
+ 
+ .popup.theme-cyan .header { background: #e0f7fa; border-bottom-color: #b2ebf2; }
+ .popup.theme-cyan .content { background: #f0fcff; }
+ 
+ .popup.theme-lime .header { background: #f9fbe7; border-bottom-color: #f0f4c3; }
+ .popup.theme-lime .content { background: #fdfef8; }
+ 
+ .popup.theme-red .header { background: #ffebee; border-bottom-color: #ffcdd2; }
+ .popup.theme-red .content { background: #fff5f5; }
+ 
+ .popup.theme-teal .header { background: #e0f2f1; border-bottom-color: #b2dfdb; }
+ .popup.theme-teal .content { background: #f0faf9; }
+ 
+ .popup.theme-indigo .header { background: #e8eaf6; border-bottom-color: #c5cae9; }
+ .popup.theme-indigo .content { background: #f3f4fb; }
+ 
+ .popup.theme-amber .header { background: #fff8e1; border-bottom-color: #ffecb3; }
+ .popup.theme-amber .content { background: #fffef5; }
+ 
+ .popup.theme-rose .header { background: #fce4ec; border-bottom-color: #f8bbd0; }
+ .popup.theme-rose .content { background: #fef5f8; }
+ 
+ .popup.theme-mint .header { background: #e8f8f5; border-bottom-color: #c8ebe3; }
+ .popup.theme-mint .content { background: #f5fcfa; }
+ 
+ .popup.theme-peach .header { background: #fff0e5; border-bottom-color: #ffe0c7; }
+ .popup.theme-peach .content { background: #fffaf5; }
+ 
+ .popup.theme-lavender .header { background: #f0ebf8; border-bottom-color: #ddd0f0; }
+ .popup.theme-lavender .content { background: #f9f6fc; }
+ 
+ .popup.theme-coral .header { background: #ffe4e1; border-bottom-color: #ffc4bd; }
+ .popup.theme-coral .content { background: #fff7f6; }
+ 
+ .popup.theme-sky .header { background: #e1f5fe; border-bottom-color: #b3e5fc; }
+ .popup.theme-sky .content { background: #f0fbff; }
+ 
+ .popup.theme-lemon .header { background: #fffef0; border-bottom-color: #fff9c8; }
+ .popup.theme-lemon .content { background: #fffffa; }
+ 
+ @media (max-width: 640px) { 
+   .popup { width: min(230px, 85vw); font-size: 13px; }
+   .popup .content { font-size: 16px; }
+ }
+ 
+ /* 动画效果 */
+ @keyframes modal-appear {
+   0% {
+     opacity: 0;
+     transform: scale(0.7) translateY(-20px);
+   }
+   100% {
+     opacity: 1;
+     transform: scale(1) translateY(0);
+   }
+ }
