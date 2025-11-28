@@ -64,7 +64,7 @@ const tipsData = {
 */
 
 // 标题文本
-let titleText = "亲爱的聂亚慧"; // 默认标题
+let titleText = "亲爱的张倩楠"; // 默认标题
 
 // 弹窗队列和计时器
 let tipsQueue = [];
@@ -591,4 +591,5 @@ window.app = {
   stopTipsTimer,
   closeAllTips
 };
+
 
