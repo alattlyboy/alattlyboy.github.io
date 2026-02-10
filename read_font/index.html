@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文章听读功能</title>
+  <style>
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+      }
+      body {
+          background-color: #f8fafc;
+          min-height: 100vh;
+          padding: 16px;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      }
+      .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          border-radius: 8px;
+          padding: 24px;
+          display: flex;
+          gap: 0;
+      }
+      .article-area {
+          flex: 1;
+          max-width: calc(100% - 300px);
+          border: 1px solid #e2e8f0;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          background: white;
+          padding: 16px;
+          margin-right: 20px;
+          display: flex;
+          flex-direction: column;
+      }
+      .header {
+          padding-bottom: 16px;
+          border-bottom: 1px solid #e2e8f0;
+          margin-bottom: 20px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      }
+      .header h1 {
+          font-size: 24px;
+          font-weight: 500;
+          color: #1e293b;
+      }
+      .editor-toolbar {
+          display: flex;
+          gap: 8px;
+          margin-bottom: 12px;
+      }
+      .toolbar-btn {
+          padding: 6px 12px;
+          background: #3b82f6;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 13px;
+          transition: background-color 0.2s;
+      }
+      .toolbar-btn:hover {
+          background: #2563eb;
+      }
+      .toolbar-btn.secondary {
+          background: #e2e8f0;
+          color: #475569;
+      }
+      .toolbar-btn.secondary:hover {
+          background: #cbd5e1;
+      }
+      #textInput {
+          width: 100%;
+          flex: 1;
+          min-height: 400px;
+          padding: 16px;
+          border: 1px solid #e2e8f0;
+          border-radius: 4px;
+          font-size: 16px;
+          line-height: 1.7;
+          resize: vertical;
+          font-family: inherit;
+          color: #1e293b;
+      }
+      #textInput:focus {
+          outline: none;
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      }
+      .preview-area {
+          margin-top: 20px;
+          padding: 16px;
+          background: #f8fafc;
+          border-radius: 4px;
+          border: 1px solid #e2e8f0;
+          display: none;
+      }
+      .preview-area.active {
+          display: block;
+      }
+      .preview-area h3 {
+          font-size: 14px;
+          color: #64748b;
+          margin-bottom: 12px;
+          font-weight: 500;
+      }
+      .sentence {
+          border-radius: 4px;
+          transition: background-color 0.2s ease;
+          cursor: pointer;
+          padding: 2px 4px;
+          display: inline;
+          line-height: 1.8;
+      }
+      .sentence:hover {
+          background-color: #e0f2fe;
+      }
+      .current {
+          background: #bfdbfe !important;
+          color: #1e40af;
+          font-weight: 500;
+          border-radius: 4px;
+          box-shadow: 0 1px 3px rgba(37, 99, 235, 0.1);
+      }
+      .reader-panel {
+          width: 280px;
+          background: white;
+          border: 1px solid #e2e8f0;
+          padding: 16px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          position: sticky;
+          top: 24px;
+          height: fit-content;
+          max-height: calc(100vh - 48px);
+          overflow-y: auto;
+      }
+      .controls {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          margin-bottom: 12px;
+      }
+      .btn {
+          padding: 8px 12px;
+          background: #e2e8f0;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 13px;
+          transition: background-color 0.2s;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          flex: 1 1 calc(50% - 4px);
+          justify-content: center;
+      }
+      .btn:hover:not(:disabled) {
+          background: #cbd5e1;
+      }
+      .btn:disabled {
+          background: #e2e8f0;
+          cursor: not-allowed;
+          opacity: 0.6;
+      }
+      .voice-control {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          margin-bottom: 12px;
+      }
+      label {
+          font-size: 13px;
+          color: #475569;
+      }
+      select {
+          padding: 6px 10px;
+          border-radius: 4px;
+          border: 1px solid #cbd5e1;
+          font-size: 13px;
+          background-color: white;
+          width: 100%;
+      }
+      .progress-container {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 12px;
+      }
+      .progress-info {
+          font-size: 13px;
+          color: #475569;
+          min-width: 80px;
+      }
+      .progress-bar {
+          flex: 1;
+          height: 8px;
+          background-color: #e2e8f0;
+          border-radius: 4px;
+          overflow: hidden;
+      }
+      .progress-fill {
+          height: 100%;
+          width: 0;
+          background: #3b82f6;
+          border-radius: 4px;
+          transition: width 0.3s ease;
+      }
+      .status-text {
+          font-size: 12px;
+          color: #64748b;
+          margin-top: 8px;
+          text-align: center;
+      }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="article-area">
+    <header class="header">
+      <h1>文本朗读</h1>
+      <span style="font-size: 13px; color: #64748b;">输入或粘贴文本后点击"准备朗读"</span>
+    </header>
+    
+    <div class="editor-toolbar">
+      <button class="toolbar-btn" onclick="prepareText()">准备朗读</button>
+      <button class="toolbar-btn secondary" onclick="clearText()">清空文本</button>
+      <button class="toolbar-btn secondary" onclick="sampleText()">示例文本</button>
+    </div>
+
+    <textarea id="textInput" placeholder="在此输入或粘贴您想要朗读的文本...&#10;&#10;支持中文、英文等多种语言。&#10;&#10;点击"准备朗读"按钮解析文本，然后使用右侧面板控制播放。"></textarea>
+
+    <div id="previewArea" class="preview-area">
+      <h3>朗读预览（点击句子可跳转）：</h3>
+      <div id="sentencesContainer"></div>
+    </div>
+  </div>
+
+  <div class="reader-panel">
+    <div class="controls">
+      <button id="playBtn" class="btn" onclick="handlePlayAction('play')">开始</button>
+      <button id="pauseBtn" class="btn" disabled onclick="handlePlayAction('pause')">暂停</button>
+      <button id="resumeBtn" class="btn" disabled onclick="handlePlayAction('resume')">继续</button>
+      <button id="stopBtn" class="btn" disabled onclick="handlePlayAction('stop')">停止</button>
+    </div>
+    
+    <div class="voice-control">
+      <label for="voiceSelect">选择语音</label>
+      <select id="voiceSelect" aria-label="选择朗读语音">
+        <option value="">请先准备文本</option>
+      </select>
+    </div>
+
+    <div class="progress-container">
+      <div class="progress-info">
+        进度: <span id="progressText">0/0</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+    
+    <div class="status-text" id="statusText">请输入文本并点击"准备朗读"</div>
+  </div>
+</div>
+
+<script>
+  const speechSynthesis = window.speechSynthesis;
+  let voices = [];
+  let currentUtterance = null;
+  let currentSentenceIndex = 0;
+  let isPaused = false;
+  let sentences = [];
+  let sentenceElements = [];
+  const rate = 1;
+
+  // 初始化语音列表
+  function initVoices() {
+    voices = speechSynthesis.getVoices();
+    const voiceSelect = document.getElementById('voiceSelect');
+    
+    if (voices.length > 0) {
+      voiceSelect.innerHTML = voices.map((v, i) => 
+        `<option value="${i}">${v.name} (${v.lang})</option>`
+      ).join('');
+      
+      // 优先选择中文语音
+      const preferredVoiceIndex = voices.findIndex(v => 
+        v.lang.includes('zh') || v.lang.includes('cmn') || v.lang.includes('CN')
+      );
+      if (preferredVoiceIndex !== -1) {
+        voiceSelect.value = preferredVoiceIndex;
+      }
+    }
+  }
+
+  // 准备文本（解析输入框内容）
+  function prepareText() {
+    const textInput = document.getElementById('textInput');
+    const text = textInput.value.trim();
+    
+    if (!text) {
+      alert('请输入文本内容');
+      return;
+    }
+
+    // 停止当前播放
+    speechSynthesis.cancel();
+    isPaused = false;
+    currentSentenceIndex = 0;
+    
+    // 分割句子（支持中英文句号、问号、感叹号）
+    const rawSentences = text.split(/(?<=[。！？.?!])\s*/g).filter(s => s.trim().length > 0);
+    
+    if (rawSentences.length === 0) {
+      alert('未能识别到有效句子，请检查文本');
+      return;
+    }
+
+    // 显示预览区域
+    const previewArea = document.getElementById('previewArea');
+    const container = document.getElementById('sentencesContainer');
+    previewArea.classList.add('active');
+    
+    // 生成句子元素
+    container.innerHTML = rawSentences.map((s, i) => 
+      `<span class="sentence" data-index="${i}">${s}</span>`
+    ).join('');
+    
+    // 保存引用
+    sentenceElements = Array.from(container.querySelectorAll('.sentence'));
+    sentences = rawSentences;
+    
+    // 绑定点击事件
+    sentenceElements.forEach((el, i) => {
+      el.addEventListener('click', () => handleClickSentence(i));
+    });
+    
+    // 更新进度
+    updateProgress();
+    updateButtonStates();
+    document.getElementById('statusText').textContent = `已加载 ${sentences.length} 个句子，Ready`;
+    
+    // 滚动到预览区域
+    previewArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // 清空文本
+  function clearText() {
+    if (confirm('确定要清空当前文本吗？')) {
+      document.getElementById('textInput').value = '';
+      document.getElementById('previewArea').classList.remove('active');
+      document.getElementById('sentencesContainer').innerHTML = '';
+      speechSynthesis.cancel();
+      sentences = [];
+      sentenceElements = [];
+      currentSentenceIndex = 0;
+      isPaused = false;
+      updateProgress();
+      updateButtonStates();
+      document.getElementById('statusText').textContent = '请输入文本并点击"准备朗读"';
+    }
+  }
+
+  // 加载示例文本
+  function sampleText() {
+    const sample = `随着信息获取方式的多样化，文字转语音功能成为提升阅读体验的重要工具。用户可以通过语音播放解放双眼，特别适合长时间阅读或视力障碍用户。
+
+本文介绍的文章听读功能实现了完整的语音播放体验。点击开始按钮后，文本内容会逐句朗读，当前播放的句子会高亮显示。
+
+您可以在左侧输入框中输入任意文本，点击"准备朗读"按钮解析后，即可使用右侧控制面板进行播放控制。支持暂停、继续、停止操作，也可以点击任意句子直接跳转播放。`;
+    
+    document.getElementById('textInput').value = sample;
+    prepareText();
+  }
+
+  function handlePlayAction(action) {
+    if (sentences.length === 0 && action !== 'stop') {
+      alert('请先输入文本并点击"准备朗读"');
+      return;
+    }
+    
+    switch(action) {
+      case 'play': 
+        currentSentenceIndex = 0; 
+        speakSentence(currentSentenceIndex); 
+        break;
+      case 'pause': 
+        if (speechSynthesis.speaking && !isPaused) { 
+          speechSynthesis.pause(); 
+          isPaused = true; 
+        } 
+        break;
+      case 'resume': 
+        if (isPaused) { 
+          speechSynthesis.resume(); 
+          isPaused = false; 
+        } 
+        break;
+      case 'stop': 
+        speechSynthesis.cancel(); 
+        isPaused = false; 
+        removeReadingStyles(); 
+        currentSentenceIndex = 0;
+        updateProgress();
+        break;
+    }
+    updateButtonStates();
+  }
+
+  function handleClickSentence(index) {
+    if (sentences.length === 0) return;
+    
+    speechSynthesis.cancel();
+    isPaused = false;
+    currentSentenceIndex = index;
+    removeReadingStyles();
+    speakSentence(currentSentenceIndex);
+    updateButtonStates();
+  }
+
+  function speakSentence(index) {
+    if (index >= sentences.length || index < 0) return;
+    
+    speechSynthesis.cancel();
+    currentSentenceIndex = Math.max(0, Math.min(index, sentences.length - 1));
+    
+    const text = sentences[currentSentenceIndex];
+    const selectedVoiceIndex = parseInt(document.getElementById('voiceSelect').value);
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    
+    if (voices[selectedVoiceIndex]) {
+      utterance.voice = voices[selectedVoiceIndex];
+    }
+    
+    utterance.rate = rate;
+    utterance.pitch = 1;
+    
+    utterance.onstart = function() { 
+      updateHighlight(currentSentenceIndex);
+      updateButtonStates();
+      document.getElementById('statusText').textContent = `正在朗读第 ${currentSentenceIndex + 1}/${sentences.length} 句`;
+    };
+    
+    utterance.onend = function() {
+      removeReadingStyles();
+      if (!isPaused && currentSentenceIndex < sentences.length - 1) {
+        currentSentenceIndex++;
+        speakSentence(currentSentenceIndex);
+      } else if (currentSentenceIndex >= sentences.length - 1) {
+        document.getElementById('statusText').textContent = '朗读完成';
+        currentSentenceIndex = 0;
+        updateProgress();
+        updateButtonStates();
+      }
+    };
+    
+    utterance.onerror = function(e) { 
+      if (e.error !== 'interrupted') {
+        console.error('Speech error:', e.error);
+        document.getElementById('statusText').textContent = '朗读出错: ' + e.error;
+      }
+      isPaused = false; 
+      updateButtonStates(); 
+    };
+    
+    currentUtterance = utterance;
+    speechSynthesis.speak(utterance);
+    updateProgress();
+  }
+
+  function updateHighlight(index) {
+    sentenceElements.forEach((el, i) => {
+      el.classList.remove('current');
+      if (i === index) {
+        el.classList.add('current');
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+  }
+
+  function removeReadingStyles() {
+    sentenceElements.forEach(el => el.classList.remove('current'));
+  }
+
+  function updateButtonStates() {
+    const isSpeaking = speechSynthesis.speaking;
+    const isPlaying = isSpeaking && !isPaused;
+    const hasText = sentences.length > 0;
+    
+    document.getElementById('playBtn').disabled = isPlaying || !hasText;
+    document.getElementById('pauseBtn').disabled = !isSpeaking || isPaused || !hasText;
+    document.getElementById('resumeBtn').disabled = !isPaused || !hasText;
+    document.getElementById('stopBtn').disabled = !isSpeaking && !hasText;
+  }
+
+  function updateProgress() {
+    const progressText = document.getElementById('progressText');
+    const progressFill = document.getElementById('progressFill');
+    const total = sentences.length;
+    
+    if (total > 0) {
+      const percentage = ((currentSentenceIndex + 1) / total) * 100;
+      progressText.textContent = `${currentSentenceIndex + 1}/${total}`;
+      progressFill.style.width = `${percentage}%`;
+    } else {
+      progressText.textContent = '0/0';
+      progressFill.style.width = '0%';
+    }
+  }
+
+  // 初始化
+  document.addEventListener('DOMContentLoaded', function() {
+    initVoices();
+    
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = initVoices;
+    }
+    
+    // 自动加载示例文本（可选）
+    // sampleText();
+  });
+</script>
+</body>
+</html>
