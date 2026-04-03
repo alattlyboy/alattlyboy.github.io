@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Markdown 编辑器</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+html, body {
+  height: 100%;
+  background: #f5f7fa;
+}
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.editor-title {
+  font-size: 22px;
+  margin-bottom: 16px;
+  color: #333;
+  text-align: center;
+}
+.toolbar {
+  margin-bottom: 16px;
+  text-align: center;
+}
+#export-btn {
+  padding: 8px 16px;
+  background: #409eff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+#export-btn:hover {
+  background: #338eef;
+}
+
+/* 双栏布局 + 响应式 */
+.md-container {
+  display: flex;
+  gap: 16px;
+  height: calc(100vh - 180px);
+  min-height: 500px;
+}
+#md-preview,
+#md-input {
+  flex: 1;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  overflow-y: auto;
+}
+#md-preview {
+  padding: 20px;
+  line-height: 1.7;
+}
+#md-input {
+  padding: 15px;
+  resize: none;
+  font-size: 14px;
+  line-height: 1.6;
+  outline: none;
+}
+#md-input:focus {
+  border-color: #409eff;
+  box-shadow: 0 0 0 2px rgba(64,158,255,0.2);
+}
+
+/* 手机端自动竖排 */
+@media (max-width: 768px) {
+  .md-container {
+    flex-direction: column;
+    height: auto;
+  }
+  #md-preview,
+  #md-input {
+    min-height: 400px;
+  }
+}
+
+/* Markdown 渲染样式 */
+#md-preview h1,#md-preview h2,#md-preview h3{margin:16px 0 10px;}
+#md-preview p{margin:10px 0;}
+#md-preview ul,#md-preview ol{margin:10px 0 10px 24px;}
+#md-preview blockquote{
+  padding:10px 15px;
+  background:#f7f8fa;
+  border-left:4px solid #409eff;
+  margin:10px 0;
+}
+#md-preview code{
+  background:#f7f8fa;
+  padding:2px 6px;
+  border-radius:4px;
+  color:#e53935;
+}
+#md-preview pre code{
+  display:block;
+  padding:12px;
+  color:#333;
+  overflow-x:auto;
+}
+#md-preview a{color:#409eff;text-decoration:none;}
+#md-preview img{max-width:100%;border-radius:4px;margin:10px 0;}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h1 class="editor-title">Markdown 编辑器</h1>
+  <div class="toolbar">
+    <button id="export-btn">导出为 .md 文件</button>
+  </div>
+
+  <div class="md-container">
+    <!-- 左边：预览 -->
+    <div id="md-preview"></div>
+    <!-- 右边：编辑 -->
+    <textarea id="md-input" placeholder="请输入 Markdown..."></textarea>
+  </div>
+</div>
+
+<script>
+const mdInput = document.getElementById('md-input');
+const mdPreview = document.getElementById('md-preview');
+const exportBtn = document.getElementById('export-btn');
+
+const defaultMd = `# Markdown 编辑器
+支持所有常用语法 ✅
+
+## 二级标题
+### 三级标题
+
+**粗体文本**  
+*斜体文本*  
+
+> 引用内容：这是一段 Markdown 引用
+
+- 无序列表 1
+- 无序列表 2
+- 无序列表 3
+
+1. 有序列表 1
+2. 有序列表 2
+
+[链接 - 百度](sslocal://flow/file_open?url=https%3A%2F%2Fwww.baidu.com&flow_extra=eyJsaW5rX3R5cGUiOiJjb2RlX2ludGVycHJldGVyIn0=)
+
+![示例图片](https://picsum.photos/600/300)
+
+\`行内代码\`
+
+\`\`\`
+// 代码块
+function hello() {
+  console.log("Hello Markdown!");
+}
+\`\`\`
+`;
+
+mdInput.value = defaultMd;
+renderMarkdown(defaultMd);
+
+mdInput.addEventListener('input', function () {
+  renderMarkdown(this.value);
+});
+
+// 导出 .md
+exportBtn.addEventListener('click', function () {
+  const content = mdInput.value;
+  const blob = new Blob([content], { type: 'text/markdown' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'document.md';
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+// 渲染
+function renderMarkdown(text) {
+  let html = text
+    .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+    .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+    .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+    .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+    .replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>')
+    .replace(/^- (.*$)/gim, '<li>$1</li>')
+    .replace(/^\d+\. (.*$)/gim, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/gim, '<ul>$1</ul>')
+    .replace(/<\/ul>\s*<ul>/gim, '')
+    .replace(/\[(.*?)\]\((.*?)\)/gim, '<a href="$2" target="_blank">$1</a>')
+    .replace(/!\[(.*?)\]\((.*?)\)/gim, '<img alt="$1" src="$2">')
+    .replace(/```([\s\S]*?)```/gim, '<pre><code>$1</code></pre>')
+    .replace(/`(.*?)`/gim, '<code>$1</code>')
+    .replace(/\n/gim, '<br>');
+  mdPreview.innerHTML = html;
+}
+</script>
+</body>
+</html>
