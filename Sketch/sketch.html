@@ -78,6 +78,10 @@
             background: #f44336;
         }
 
+        .btn-gallery {
+            background: #9C27B0;
+        }
+
         .display-area {
             display: flex;
             align-items: center;
@@ -191,6 +195,343 @@
             display: none;
         }
 
+        /* 图库弹窗 */
+        .gallery-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .gallery-overlay.active {
+            display: flex;
+        }
+
+        .gallery-modal {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 1200px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .gallery-header h2 {
+            font-size: 20px;
+            color: #333;
+        }
+
+        .gallery-close {
+            font-size: 28px;
+            cursor: pointer;
+            color: #666;
+            background: none;
+            border: none;
+        }
+
+        .gallery-close:hover {
+            color: #333;
+        }
+
+        .gallery-tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .gallery-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            background: #f5f5f5;
+            border: none;
+            font-size: 14px;
+            color: #666;
+            transition: all 0.2s;
+        }
+
+        .gallery-tab.active {
+            background: white;
+            color: #2196F3;
+            font-weight: bold;
+            border-bottom: 2px solid #2196F3;
+        }
+
+        .gallery-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .gallery-item {
+            background: #f5f5f5;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s;
+            position: relative;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-item-info {
+            padding: 8px 12px;
+            font-size: 12px;
+            color: #666;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .gallery-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+            font-size: 16px;
+        }
+
+        /* 密码弹窗 */
+        .password-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .password-overlay.active {
+            display: flex;
+        }
+
+        .password-modal {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .password-modal h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .password-modal p {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 20px;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            letter-spacing: 8px;
+            margin-bottom: 16px;
+            outline: none;
+        }
+
+        .password-input:focus {
+            border-color: #2196F3;
+        }
+
+        .password-btn {
+            width: 100%;
+            padding: 12px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .password-btn:hover {
+            background: #1976D2;
+        }
+
+        .password-error {
+            color: #f44336;
+            font-size: 13px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        /* 图片预览弹窗 */
+        .preview-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .preview-overlay.active {
+            display: flex;
+        }
+
+        .preview-img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .preview-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        /* 图库操作栏 */
+        .gallery-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-clear-db {
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: opacity 0.2s;
+        }
+
+        .btn-clear-db:hover {
+            opacity: 0.9;
+        }
+
+        .btn-clear-db:disabled {
+            background: #ef9a9a;
+            cursor: not-allowed;
+        }
+
+        /* 确认弹窗 */
+        .confirm-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2500;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .confirm-overlay.active {
+            display: flex;
+        }
+
+        .confirm-modal {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            width: 90%;
+            max-width: 360px;
+            text-align: center;
+        }
+
+        .confirm-modal h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .confirm-modal p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .confirm-btns {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .confirm-btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .confirm-btn:hover {
+            opacity: 0.9;
+        }
+
+        .confirm-btn-cancel {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .confirm-btn-confirm {
+            background: #f44336;
+            color: white;
+        }
+
         @media (max-width: 1000px) {
             .img-box {
                 width: 90vw;
@@ -205,11 +546,23 @@
                 flex-direction: column;
             }
         }
+        .Prompt‌{
+        width: 100%;
+            max-width: 1000px;
+            padding: 10px 20px;
+            font-size: 13px;
+            color: #e57373;
+            background: #fff3f3;
+            border: 1px solid #ffcdd2;
+            border-radius: 6px;
+            margin: 0 0 15px 0;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div class="title">🎨 照片转素描工具</div>
-
+   <div class="Prompt‌">提示：⚠️本产品不具有上传功能一切皆在本地运行，可放心使用</div>
     <div class="btn-area">
         <button class="btn btn-upload" onclick="document.getElementById('fileInput').click()">
             📁 上传图片
@@ -219,6 +572,9 @@
         </button>
         <button class="btn btn-clear" onclick="clearAll()">
             🗑️ 清空
+        </button>
+        <button class="btn btn-gallery" onclick="openGallery()">
+            🖼️ 查看图库
         </button>
     </div>
 
@@ -255,12 +611,138 @@
 
     <div class="status-bar" id="statusBar">就绪 - 请上传图片</div>
 
+    <!-- 密码弹窗 -->
+    <div class="password-overlay" id="passwordOverlay">
+        <div class="password-modal">
+            <h3>🔒 请输入查看密码</h3>
+            <p>图库查看需要密码验证</p>
+            <input type="password" class="password-input" id="passwordInput" placeholder="******" maxlength="6">
+            <button class="password-btn" onclick="verifyPassword()">确认进入</button>
+            <div class="password-error" id="passwordError">密码错误，请重新输入</div>
+        </div>
+    </div>
+
+    <!-- 图库弹窗 -->
+    <div class="gallery-overlay" id="galleryOverlay">
+        <div class="gallery-modal">
+            <div class="gallery-header">
+                <h2>🖼️ 图片图库</h2>
+                <div class="gallery-actions">
+                    <button class="btn-clear-db" id="clearDbBtn" onclick="showClearConfirm()">
+                        🗑️ 清空当前数据
+                    </button>
+                    <button class="gallery-close" onclick="closeGallery()">&times;</button>
+                </div>
+            </div>
+            <div class="gallery-tabs">
+                <button class="gallery-tab active" onclick="switchTab('input')" id="tabInput">📁 导入图片 (Input)</button>
+                <button class="gallery-tab" onclick="switchTab('output')" id="tabOutput">💾 下载图片 (Output)</button>
+            </div>
+            <div class="gallery-content" id="galleryContent">
+                <div class="gallery-grid" id="galleryGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 确认弹窗 -->
+    <div class="confirm-overlay" id="confirmOverlay">
+        <div class="confirm-modal">
+            <h3>⚠️ 确认清空</h3>
+            <p id="confirmText">确定要清空当前分类的所有数据吗？此操作不可恢复！</p>
+            <div class="confirm-btns">
+                <button class="confirm-btn confirm-btn-cancel" onclick="hideClearConfirm()">取消</button>
+                <button class="confirm-btn confirm-btn-confirm" onclick="executeClear()">确认清空</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 图片预览弹窗 -->
+    <div class="preview-overlay" id="previewOverlay" onclick="closePreview()">
+        <button class="preview-close">&times;</button>
+        <img class="preview-img" id="previewImg" src="" alt="预览">
+    </div>
+
     <script>
         let originalImageData = null;
         let originalFileName = '';
         let sketchImageData = null;
         let originalWidth = 0;
         let originalHeight = 0;
+        const CORRECT_PASSWORD = '123456';
+
+        // IndexedDB 数据库
+        let db = null;
+        const DB_NAME = 'SketchToolDB';
+        const DB_VERSION = 1;
+
+        function initDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, DB_VERSION);
+                request.onerror = () => reject(request.error);
+                request.onsuccess = () => {
+                    db = request.result;
+                    resolve(db);
+                };
+                request.onupgradeneeded = (event) => {
+                    const database = event.target.result;
+                    if (!database.objectStoreNames.contains('input')) {
+                        database.createObjectStore('input', { keyPath: 'id', autoIncrement: true });
+                    }
+                    if (!database.objectStoreNames.contains('output')) {
+                        database.createObjectStore('output', { keyPath: 'id', autoIncrement: true });
+                    }
+                };
+            });
+        }
+
+        // 保存图片到 IndexedDB
+        function saveImage(storeName, fileName, dataUrl) {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([storeName], 'readwrite');
+                const store = transaction.objectStore(storeName);
+                const data = {
+                    fileName: fileName,
+                    dataUrl: dataUrl,
+                    timestamp: new Date().toISOString()
+                };
+                const request = store.add(data);
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // 获取所有图片
+        function getAllImages(storeName) {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([storeName], 'readonly');
+                const store = transaction.objectStore(storeName);
+                const request = store.getAll();
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // 删除单张图片
+        function deleteImage(storeName, id) {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([storeName], 'readwrite');
+                const store = transaction.objectStore(storeName);
+                const request = store.delete(id);
+                request.onsuccess = () => resolve();
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // 清空整个存储
+        function clearStore(storeName) {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([storeName], 'readwrite');
+                const store = transaction.objectStore(storeName);
+                const request = store.clear();
+                request.onsuccess = () => resolve();
+                request.onerror = () => reject(request.error);
+            });
+        }
 
         function updateBlurValue(val) {
             document.getElementById('blurValue').textContent = val;
@@ -283,13 +765,21 @@
                     origCanvas.height = originalHeight;
                     const origCtx = origCanvas.getContext('2d');
                     origCtx.drawImage(img, 0, 0);
-                    
+
                     originalImageData = origCtx.getImageData(0, 0, originalWidth, originalHeight);
-                    
+
                     showCanvas('originalCanvas', 'originalPlaceholder');
-                    
-                    document.getElementById('statusBar').textContent = 
-                        `已加载: ${file.name} | 尺寸: ${originalWidth}x${originalHeight}`;
+
+                    // 保存到 input 存储
+                    const dataUrl = origCanvas.toDataURL('image/png');
+                    saveImage('input', file.name, dataUrl).then(() => {
+                        document.getElementById('statusBar').textContent = 
+                            `已加载: ${file.name} | 尺寸: ${originalWidth}x${originalHeight} | 已保存到 Input`;
+                    }).catch(err => {
+                        console.error('保存失败:', err);
+                        document.getElementById('statusBar').textContent = 
+                            `已加载: ${file.name} | 尺寸: ${originalWidth}x${originalHeight}`;
+                    });
 
                     generateSketch();
                 };
@@ -310,7 +800,6 @@
 
         // ========== 纯 JS 高斯模糊实现（完全还原 OpenCV GaussianBlur）==========
 
-        // 生成高斯核（一维，可分离）
         function getGaussianKernel(size, sigma) {
             const kernel = [];
             const center = (size - 1) / 2;
@@ -321,21 +810,17 @@
                 kernel.push(val);
                 sum += val;
             }
-            // 归一化
             for (let i = 0; i < size; i++) {
                 kernel[i] /= sum;
             }
             return kernel;
         }
 
-        // 可分离高斯模糊：先水平后垂直
         function gaussianBlur(srcData, width, height, kernelSize) {
-            // OpenCV sigma 计算: sigma = 0.3*((ksize-1)*0.5 - 1) + 0.8
             const sigma = 0.3 * ((kernelSize - 1) * 0.5 - 1) + 0.8;
             const kernel = getGaussianKernel(kernelSize, sigma);
             const half = Math.floor(kernelSize / 2);
 
-            // 第一步：水平模糊
             const temp = new Float32Array(width * height);
             for (let y = 0; y < height; y++) {
                 for (let x = 0; x < width; x++) {
@@ -349,7 +834,6 @@
                 }
             }
 
-            // 第二步：垂直模糊
             const dst = new Float32Array(width * height);
             for (let y = 0; y < height; y++) {
                 for (let x = 0; x < width; x++) {
@@ -366,7 +850,6 @@
             return dst;
         }
 
-        // ========== 核心素描算法 ==========
         function generateSketch() {
             if (!originalImageData) return;
 
@@ -375,39 +858,31 @@
             const totalPixels = w * h;
             const origData = originalImageData.data;
 
-            // 1. 灰度转换 (COLOR_BGR2GRAY)
             const gray = new Uint8Array(totalPixels);
             for (let i = 0; i < totalPixels; i++) {
                 const idx = i * 4;
-                // BGR to Gray
                 gray[i] = 0.114 * origData[idx] + 0.587 * origData[idx + 1] + 0.299 * origData[idx + 2];
             }
 
-            // 2. 反转灰度图 (255 - gray)
             const invGray = new Uint8Array(totalPixels);
             for (let i = 0; i < totalPixels; i++) {
                 invGray[i] = 255 - gray[i];
             }
 
-            // 3. 高斯模糊 (cv2.GaussianBlur) - 纯 JS 实现
             let blurVal = parseInt(document.getElementById('blurSlider').value);
             if (blurVal % 2 === 0) blurVal += 1;
 
             const blurred = gaussianBlur(invGray, w, h, blurVal);
 
-            // 4. 反转模糊图 (255 - blurred)
             const invBlurred = new Float32Array(totalPixels);
             for (let i = 0; i < totalPixels; i++) {
                 invBlurred[i] = 255 - blurred[i];
             }
 
-            // 5. cv2.divide(gray, inverted_blurred, scale=256.0)
-            // sketch = min(255, gray / invBlur * 256)
             const sketch = new Uint8Array(totalPixels);
             for (let i = 0; i < totalPixels; i++) {
                 const grayVal = gray[i];
                 const invBlurVal = invBlurred[i];
-
                 let sketchVal;
                 if (invBlurVal <= 0) {
                     sketchVal = 255;
@@ -417,7 +892,6 @@
                 sketch[i] = sketchVal;
             }
 
-            // 绘制到结果 canvas
             const resultCanvas = document.getElementById('resultCanvas');
             resultCanvas.width = w;
             resultCanvas.height = h;
@@ -456,12 +930,27 @@
             }
 
             const resultCanvas = document.getElementById('resultCanvas');
-            const link = document.createElement('a');
-            link.download = 'sketch_' + originalFileName.replace(/\.[^/.]+$/, '') + '.png';
-            link.href = resultCanvas.toDataURL('image/png');
-            link.click();
+            const dataUrl = resultCanvas.toDataURL('image/png');
+            const downloadName = 'sketch_' + originalFileName.replace(/\.[^/.]+$/, '') + '.png';
 
-            document.getElementById('statusBar').textContent = '已保存: ' + link.download;
+            // 保存到 output 存储
+            saveImage('output', downloadName, dataUrl).then(() => {
+                // 浏览器下载
+                const link = document.createElement('a');
+                link.download = downloadName;
+                link.href = dataUrl;
+                link.click();
+
+                document.getElementById('statusBar').textContent = '已保存到 Output 并下载: ' + downloadName;
+            }).catch(err => {
+                console.error('保存失败:', err);
+                // 仍然执行浏览器下载
+                const link = document.createElement('a');
+                link.download = downloadName;
+                link.href = dataUrl;
+                link.click();
+                document.getElementById('statusBar').textContent = '已下载: ' + downloadName;
+            });
         }
 
         function clearAll() {
@@ -478,6 +967,125 @@
             document.getElementById('statusBar').textContent = '就绪 - 请上传图片';
             document.getElementById('fileInput').value = '';
         }
+
+        // ========== 图库功能 ==========
+        let currentTab = 'input';
+
+        function openGallery() {
+            document.getElementById('passwordOverlay').classList.add('active');
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('passwordError').style.display = 'none';
+            document.getElementById('passwordInput').focus();
+        }
+
+        function verifyPassword() {
+            const input = document.getElementById('passwordInput').value;
+            if (input === CORRECT_PASSWORD) {
+                document.getElementById('passwordOverlay').classList.remove('active');
+                document.getElementById('galleryOverlay').classList.add('active');
+                loadGallery(currentTab);
+            } else {
+                document.getElementById('passwordError').style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // 回车验证密码
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                verifyPassword();
+            }
+        });
+
+        function closeGallery() {
+            document.getElementById('galleryOverlay').classList.remove('active');
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.gallery-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+            loadGallery(tab);
+        }
+
+        async function loadGallery(tab) {
+            const grid = document.getElementById('galleryGrid');
+            grid.innerHTML = '<div class="gallery-empty">加载中...</div>';
+
+            try {
+                const images = await getAllImages(tab);
+                if (images.length === 0) {
+                    grid.innerHTML = '<div class="gallery-empty">暂无图片<br>请先上传或下载图片</div>';
+                    return;
+                }
+
+                grid.innerHTML = '';
+                images.reverse().forEach(img => {
+                    const item = document.createElement('div');
+                    item.className = 'gallery-item';
+                    item.innerHTML = `
+                        <img src="${img.dataUrl}" alt="${img.fileName}" onclick="previewImage('${img.dataUrl}')">
+                        <div class="gallery-item-info">
+                            ${img.fileName}<br>
+                            <small>${new Date(img.timestamp).toLocaleString()}</small>
+                        </div>
+                    `;
+                    grid.appendChild(item);
+                });
+            } catch (err) {
+                console.error('加载图库失败:', err);
+                grid.innerHTML = '<div class="gallery-empty">加载失败，请刷新重试</div>';
+            }
+        }
+
+        function previewImage(dataUrl) {
+            document.getElementById('previewImg').src = dataUrl;
+            document.getElementById('previewOverlay').classList.add('active');
+        }
+
+        function closePreview() {
+            document.getElementById('previewOverlay').classList.remove('active');
+        }
+
+        // ========== 清空 IndexedDB 功能 ==========
+        function showClearConfirm() {
+            const tabName = currentTab === 'input' ? '导入图片 (Input)' : '下载图片 (Output)';
+            document.getElementById('confirmText').textContent = 
+                `确定要清空「${tabName}」分类的所有数据吗？此操作不可恢复！`;
+            document.getElementById('confirmOverlay').classList.add('active');
+        }
+
+        function hideClearConfirm() {
+            document.getElementById('confirmOverlay').classList.remove('active');
+        }
+
+        async function executeClear() {
+            const btn = document.getElementById('clearDbBtn');
+            btn.disabled = true;
+            btn.textContent = '清空中...';
+
+            try {
+                await clearStore(currentTab);
+                document.getElementById('statusBar').textContent = 
+                    `已清空 ${currentTab === 'input' ? '导入图片' : '下载图片'} 数据`;
+                hideClearConfirm();
+                loadGallery(currentTab);
+            } catch (err) {
+                console.error('清空失败:', err);
+                alert('清空失败: ' + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '🗑️ 清空当前数据';
+            }
+        }
+
+        // 初始化数据库
+        initDB().then(() => {
+            console.log('数据库初始化成功');
+        }).catch(err => {
+            console.error('数据库初始化失败:', err);
+        });
     </script>
 </body>
 </html>
