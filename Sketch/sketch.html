@@ -611,15 +611,6 @@
 
     <div class="status-bar" id="statusBar">就绪 - 请上传图片</div>
 
-    <!-- 密码弹窗 -->
-    <div class="password-overlay" id="passwordOverlay">
-        <div class="password-modal">
-            <h3>🔒 请输入查看密码</h3>
-            <p>图库查看需要密码验证</p>
-            <input type="password" class="password-input" id="passwordInput" placeholder="******" maxlength="6">
-            <button class="password-btn" onclick="verifyPassword()">确认进入</button>
-            <div class="password-error" id="passwordError">密码错误，请重新输入</div>
-        </div>
     </div>
 
     <!-- 图库弹窗 -->
@@ -668,7 +659,7 @@
         let sketchImageData = null;
         let originalWidth = 0;
         let originalHeight = 0;
-        const CORRECT_PASSWORD = '123456';
+        
 
         // IndexedDB 数据库
         let db = null;
@@ -972,31 +963,13 @@
         let currentTab = 'input';
 
         function openGallery() {
-            document.getElementById('passwordOverlay').classList.add('active');
-            document.getElementById('passwordInput').value = '';
-            document.getElementById('passwordError').style.display = 'none';
-            document.getElementById('passwordInput').focus();
+            document.getElementById('galleryOverlay').classList.add('active');
+            loadGallery(currentTab);
         }
 
-        function verifyPassword() {
-            const input = document.getElementById('passwordInput').value;
-            if (input === CORRECT_PASSWORD) {
-                document.getElementById('passwordOverlay').classList.remove('active');
-                document.getElementById('galleryOverlay').classList.add('active');
-                loadGallery(currentTab);
-            } else {
-                document.getElementById('passwordError').style.display = 'block';
-                document.getElementById('passwordInput').value = '';
-                document.getElementById('passwordInput').focus();
-            }
-        }
+        
 
-        // 回车验证密码
-        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                verifyPassword();
-            }
-        });
+        
 
         function closeGallery() {
             document.getElementById('galleryOverlay').classList.remove('active');
