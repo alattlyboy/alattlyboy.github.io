@@ -6,16 +6,43 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
     <title>Media Screen Recorder</title>
+        <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23667eea'/%3E%3Cstop offset='100%25' style='stop-color:%23764ba2'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' fill='url(%23g)'/%3E%3Ccircle cx='50' cy='50' r='18' fill='none' stroke='white' stroke-width='4'/%3E%3Cpath d='M50 15 L50 32 M50 68 L50 85 M15 50 L32 50 M68 50 L85 50' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='50' cy='50' r='6' fill='white'/%3E%3C/svg%3E">
+<base target="_blank">
 </head>
 <body>
     <p class="countdown" id="countdown"></p>
-    <div class="screen-recorder">
-    <h1>Capture your screen</h1>
-    <video controls preload="metadata" id="video"></video>
-    <div>
-    <button type="button" class="btn" id="btn">Record</button>
-        <a href="" class="btn" id="link">Download Video</a>
+
+    <!-- 录屏主页面 -->
+    <div class="screen-recorder" id="recorderPage">
+        <h1>alattlyboy screen</h1>
+        <div class="video-container">
+            <video controls preload="metadata" id="video"></video>
+        </div>
+        <div class="controls">
+            <button type="button" class="btn" id="btn">Record</button>
+            <a href="" class="btn" id="link">Download Video</a>
+        </div>
     </div>
+
+    <!-- 录屏成功页面 -->
+    <div class="success-page" id="successPage" style="display: none;">
+        <div class="success-icon">✓</div>
+        <h2>Recording Complete!</h2>
+        <p>Your screen recording has been saved successfully.</p>
+        <div class="success-actions">
+            <button class="btn" id="previewBtn">Preview</button>
+            <button class="btn btn-danger" id="deleteBtn">Delete</button>
+            <button class="btn btn-success" id="newRecordBtn">New Recording</button>
+        </div>
+    </div>
+
+    <!-- 历史记录页面 -->
+    <div class="history-page" id="historyPage">
+        <h2>📹 Recording History</h2>
+        <p class="history-info">Maximum 3 recordings saved (oldest auto-deleted)</p>
+        <div class="history-list" id="historyList">
+            <!-- 历史记录项将动态插入这里 -->
+        </div>
     </div>
 </body>
 </html>
