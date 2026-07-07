@@ -11,6 +11,7 @@
         <!-- 头部 -->
         <div class="header">
             <h1>📝 在线答题练习系统</h1>
+            <div class="subtitle" id="headerSubtitle">答题时答案隐藏 · 提交后自动验证 · 支持大题作答</div>
         </div>
 
         <!-- 题目配置页面 -->
@@ -19,9 +20,9 @@
                 <div class="config-header">
                     <div class="config-title">📋 题目管理</div>
                     <div class="config-actions">
-                        <button class="btn btn-primary" onclick="importJsonFile()">📁 导入JSON文件</button>
-                        <button class="btn btn-success" onclick="exportJsonFile()">💾 导出JSON文件</button>
-                        <button class="btn btn-secondary" onclick="loadDemo()">🎯 加载示例</button>
+                        <button class="btn btn-primary" onclick="importJsonFile()">📁 导入JSON</button>
+                        <button class="btn btn-success" onclick="exportJsonFile()">💾 导出JSON</button>
+                        <button class="btn btn-secondary" onclick="loadDemo()">🎯 示例</button>
                     </div>
                 </div>
 
@@ -38,19 +39,34 @@
                             <option value="multi">多选题</option>
                             <option value="judge">判断题</option>
                             <option value="fill">填空题</option>
+                            <option value="essay">大题</option>
                         </select>
                     </div>
                     <div class="form-row">
                         <label>题目内容</label>
-                        <textarea id="formTitle" placeholder="请输入题目内容，填空题用 ____ 表示填空位置"></textarea>
+                        <textarea id="formTitle" placeholder="请输入题目内容，填空题用 ____ 表示填空位置，大题可描述作答要求"></textarea>
+                    </div>
+                    <!-- 大题附件上传 -->
+                    <div class="form-row" id="formAttachmentRow" style="display:none;">
+                        <label>题目附件（图片）</label>
+                        <div class="file-upload-area" id="attachmentUploadArea">
+                            <input type="file" id="formAttachment" accept="image/*" onchange="handleAttachmentUpload(event)" style="display:none;">
+                            <div class="upload-placeholder" onclick="document.getElementById('formAttachment').click()">
+                                <span>📷 点击上传题目图片</span>
+                            </div>
+                            <div class="upload-preview" id="attachmentPreview" style="display:none;">
+                                <img id="attachmentPreviewImg" src="" alt="预览">
+                                <button class="btn-small btn-delete" onclick="removeAttachment()">🗑️ 删除</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-row" id="formOptionsRow">
                         <label>选项（每行一个）</label>
                         <textarea id="formOptions" placeholder="选项A&#10;选项B&#10;选项C&#10;选项D"></textarea>
                     </div>
                     <div class="form-row">
-                        <label>正确答案</label>
-                        <input type="text" id="formAnswer" placeholder="单选填A/B/C/D，多选填A,C,D，判断填A(对)或B(错)，填空填答案">
+                        <label>正确答案 / 参考答案</label>
+                        <textarea id="formAnswer" placeholder="单选填A/B/C/D，多选填A,C,D，判断填A(对)或B(错)，填空填答案，大题填写参考答案"></textarea>
                     </div>
                     <div class="form-actions">
                         <button class="btn btn-primary" onclick="saveQuestion()">💾 保存题目</button>
@@ -94,7 +110,7 @@
                     <span class="progress-title">答题进度</span>
                     <span class="progress-count" id="progressCount">0/0</span>
                 </div>
-                <div class="progress-bar">
+                <div class="progress-bar-track">
                     <div class="progress-fill" id="progressFill"></div>
                 </div>
             </div>
