@@ -959,11 +959,15 @@ function submitAll() {
 
 // ==================== 修复：重新答题 ====================
 function resetQuiz() {
-    // 完全重置答题状态，重新进入答题页面
+    // 完全重置答题状态
     submitted = false;
     currentIndex = 0;
     userAnswers = {};
-    canvasStates = {};
+
+    // 清空画布状态（让 renderQuestions 重新初始化）
+    for (let key in canvasStates) {
+        delete canvasStates[key];
+    }
 
     // 隐藏统计面板
     const statsPanel = document.getElementById('statsPanel');
@@ -973,16 +977,27 @@ function resetQuiz() {
     const scoreLabel = document.querySelector('.score-label');
     if (scoreLabel) scoreLabel.innerHTML = '分';
 
+    // 清空题目容器，强制重新渲染
+    const container = document.getElementById('questionsContainer');
+    container.innerHTML = '';
+
     // 重新渲染题目（清除之前的选择状态）
     renderQuestions();
 
-    // 显示第一题
+    // 重置导航状态
+    document.querySelectorAll('.nav-item').forEach(n => {
+        n.classList.remove('correct', 'incorrect', 'answered', 'current');
+    });
+
+    // 显示第一题（使用更长的延迟确保DOM完全就绪）
     setTimeout(() => {
         showQuestion(0);
-    }, 100);
+    }, 200);
 
     // 更新按钮状态
     document.getElementById('submitBtn').style.display = 'inline-flex';
+    document.getElementById('prevBtn').style.display = 'none';
+    document.getElementById('nextBtn').style.display = questions.length > 1 ? 'inline-flex' : 'none';
     document.getElementById('resetBtn').style.display = 'none';
 
     updateProgress();
