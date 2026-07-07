@@ -46,7 +46,7 @@ let currentIndex = 0;
 let userAnswers = {};
 let submitted = false;
 let editingIndex = -1;
-let tempAttachment = null; // 临时附件（base64）
+let tempAttachment = null;
 
 const typeConfig = {
     single: { label: '单选题', class: 'badge-single' },
@@ -131,7 +131,6 @@ function onTypeChange() {
     }
 }
 
-// 附件上传处理
 function handleAttachmentUpload(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -149,7 +148,8 @@ function handleAttachmentUpload(event) {
 function removeAttachment() {
     tempAttachment = null;
     document.getElementById('attachmentPreview').style.display = 'none';
-    document.querySelector('.upload-placeholder').style.display = 'block';
+    const placeholder = document.querySelector('.upload-placeholder');
+    if (placeholder) placeholder.style.display = 'block';
     document.getElementById('formAttachment').value = '';
 }
 
@@ -182,11 +182,8 @@ function saveQuestion() {
             return;
         }
     } else if (type === 'essay') {
-        // 大题：选项为空，答案为参考答案
         options = [];
-        // attachment 已在上面获取
     } else {
-        // 单选/多选
         if (!optionsText) {
             alert('请输入选项！');
             return;
@@ -219,7 +216,6 @@ function saveQuestion() {
     }
 
     if (editingIndex >= 0) {
-        // 编辑模式：保留原有attachment如果没有新上传
         if (!attachment && questions[editingIndex].attachment) {
             question.attachment = questions[editingIndex].attachment;
         }
@@ -242,12 +238,12 @@ function editQuestion(index) {
 
     onTypeChange();
 
-    // 恢复附件
     if (q.attachment) {
         tempAttachment = q.attachment;
         document.getElementById('attachmentPreviewImg').src = q.attachment;
         document.getElementById('attachmentPreview').style.display = 'flex';
-        document.querySelector('.upload-placeholder').style.display = 'none';
+        const placeholder = document.querySelector('.upload-placeholder');
+        if (placeholder) placeholder.style.display = 'none';
     } else {
         removeAttachment();
     }
@@ -308,7 +304,6 @@ function handleFileSelect(event) {
                 alert('JSON文件格式错误：根元素必须是数组！');
                 return;
             }
-            // 验证题目格式
             for (let i = 0; i < data.length; i++) {
                 const q = data[i];
                 if (!q.type || !q.title) {
@@ -371,7 +366,8 @@ function startQuiz() {
     submitted = false;
 
     // 隐藏统计面板
-    document.getElementById('statsPanel').classList.remove('show');
+    const statsPanel = document.getElementById('statsPanel');
+    if (statsPanel) statsPanel.classList.remove('show');
 
     // 重置按钮
     document.getElementById('submitBtn').style.display = 'inline-flex';
@@ -380,10 +376,10 @@ function startQuiz() {
     renderNav();
     renderQuestions();
 
-    // 关键修复：确保第一题显示
+    // 关键修复：延迟执行确保DOM渲染完成
     setTimeout(() => {
         showQuestion(0);
-    }, 50);
+    }, 100);
 
     updateProgress();
 }
@@ -412,7 +408,6 @@ function renderQuestions() {
         const typeInfo = typeConfig[q.type];
         let content = '';
 
-        // 题目图片（如果有附件）
         let attachmentHtml = '';
         if (q.attachment) {
             attachmentHtml = `<img class="question-image" src="${q.attachment}" alt="题目图片" onclick="window.open(this.src)">`;
@@ -487,7 +482,7 @@ function renderQuestions() {
         </div>`;
     }).join('');
 
-    // 初始化大题的canvas状态
+    // 初始化大题的canvas
     questions.forEach((q, i) => {
         if (q.type === 'essay') {
             initCanvas(i);
@@ -496,7 +491,7 @@ function renderQuestions() {
 }
 
 // ==================== Canvas 画图功能 ====================
-const canvasStates = {}; // 存储每个canvas的状态
+const canvasStates = {};
 
 function initCanvas(index) {
     const canvas = document.getElementById(`canvas-${index}`);
@@ -515,6 +510,12 @@ function initCanvas(index) {
         canvas: canvas,
         dataUrl: null
     };
+
+    // 设置默认画笔按钮高亮
+    const penBtn = document.getElementById(`tool-pen-${index}`);
+    const eraserBtn = document.getElementById(`tool-eraser-${index}`);
+    if (penBtn) penBtn.style.opacity = '1';
+    if (eraserBtn) eraserBtn.style.opacity = '0.5';
 }
 
 function getCanvasPos(e, canvas) {
@@ -622,10 +623,8 @@ function stopDrawing(index) {
     state.isDrawing = false;
     state.ctx.beginPath();
 
-    // 保存画布数据
     state.dataUrl = state.canvas.toDataURL();
 
-    // 记录到userAnswers
     if (!userAnswers[index]) userAnswers[index] = {};
     userAnswers[index].drawing = state.dataUrl;
     updateNavState(index);
@@ -637,9 +636,10 @@ function setDrawTool(index, tool) {
     if (!state) return;
     state.tool = tool;
 
-    // 更新按钮样式
-    document.getElementById(`tool-pen-${index}`).style.opacity = tool === 'pen' ? '1' : '0.5';
-    document.getElementById(`tool-eraser-${index}`).style.opacity = tool === 'eraser' ? '1' : '0.5';
+    const penBtn = document.getElementById(`tool-pen-${index}`);
+    const eraserBtn = document.getElementById(`tool-eraser-${index}`);
+    if (penBtn) penBtn.style.opacity = tool === 'pen' ? '1' : '0.5';
+    if (eraserBtn) eraserBtn.style.opacity = tool === 'eraser' ? '1' : '0.5';
 }
 
 function setDrawColor(index, color) {
@@ -670,7 +670,10 @@ function clearCanvas(index) {
 // ==================== 题目导航和交互 ====================
 function showQuestion(index) {
     // 先隐藏所有题目
-    document.querySelectorAll('.question-card').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.question-card').forEach(c => {
+        c.classList.remove('active');
+        c.style.display = 'none';
+    });
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('current'));
 
     // 显示当前题目
@@ -761,7 +764,7 @@ function updateNavState(qIdx) {
         hasAnswer = ans && (ans.text || ans.drawing);
     } else {
         const ans = userAnswers[qIdx];
-        hasAnswer = ans && (Array.isArray(ans) ? ans.length > 0 : (typeof ans === 'string' ? ans !== '' : true));
+        hasAnswer = ans && (Array.isArray(ans) ? ans.length > 0 : (typeof ans === 'string' ? ans !== '' : false));
     }
 
     if (hasAnswer) {
@@ -831,9 +834,8 @@ function submitAll() {
         let correctText = '';
 
         if (q.type === 'essay') {
-            // 大题：标记为已作答，显示参考答案
+            // 大题：不计入成绩，只显示参考答案
             essayCount++;
-            isCorrect = true; // 大题默认算对，主要看参考答案
 
             // 禁用输入
             const textArea = document.getElementById(`essay-text-${i}`);
@@ -847,6 +849,9 @@ function submitAll() {
             if (canvas) {
                 canvas.style.pointerEvents = 'none';
             }
+
+            // 大题导航标记为特殊颜色（蓝色表示已作答的大题）
+            if (nav) nav.classList.add('answered');
 
             correctText = `<span class="label">📖 参考答案：</span><pre style="white-space:pre-wrap;font-family:inherit;">${escapeHtml(q.answer || '暂无参考答案')}</pre>`;
         } else if (q.type === 'fill') {
@@ -890,14 +895,17 @@ function submitAll() {
             correctText = `<span class="label">✓ 正确答案：</span>${correctAns.join('、')}`;
         }
 
-        if (isCorrect) {
-            correctCount++;
-            if (card) card.classList.add('correct-border');
-            if (nav) nav.classList.add('correct');
-        } else {
-            wrongCount++;
-            if (card) card.classList.add('wrong-border');
-            if (nav) nav.classList.add('incorrect');
+        // 只有客观题才标记对错边框
+        if (q.type !== 'essay') {
+            if (isCorrect) {
+                correctCount++;
+                if (card) card.classList.add('correct-border');
+                if (nav) nav.classList.add('correct');
+            } else {
+                wrongCount++;
+                if (card) card.classList.add('wrong-border');
+                if (nav) nav.classList.add('incorrect');
+            }
         }
 
         const resultArea = document.getElementById(`result-${i}`);
@@ -907,7 +915,7 @@ function submitAll() {
         if (badge) {
             if (q.type === 'essay') {
                 badge.className = 'result-badge badge-pass';
-                badge.innerHTML = '📝 大题已作答（请对照参考答案）';
+                badge.innerHTML = '📝 大题已作答（请对照参考答案自评）';
             } else {
                 badge.className = `result-badge ${isCorrect ? 'badge-pass' : 'badge-fail'}`;
                 badge.innerHTML = isCorrect ? '✅ 回答正确' : '❌ 回答错误';
@@ -917,15 +925,23 @@ function submitAll() {
         if (resultArea) resultArea.classList.add('show');
     });
 
-    const total = questions.length;
-    const objectiveTotal = total - essayCount;
+    // 计算得分：只统计客观题（非大题）
+    const objectiveTotal = questions.filter(q => q.type !== 'essay').length;
     const score = objectiveTotal > 0 ? Math.round((correctCount / objectiveTotal) * 100) : 100;
 
     document.getElementById('scoreNumber').textContent = score;
     document.getElementById('scoreNumber').className = `score-number ${score >= 60 ? '' : 'fail'}`;
     document.getElementById('correctNum').textContent = correctCount;
     document.getElementById('wrongNum').textContent = wrongCount;
-    document.getElementById('totalNum').textContent = total;
+    document.getElementById('totalNum').textContent = questions.length;
+
+    // 如果有大题，显示提示
+    if (essayCount > 0) {
+        const scoreLabel = document.querySelector('.score-label');
+        if (scoreLabel) {
+            scoreLabel.innerHTML = `分<br><span style="font-size:13px;color:#888;">（不含${essayCount}道大题，大题请对照参考答案自评）</span>`;
+        }
+    }
 
     document.getElementById('statsPanel').classList.add('show');
 
@@ -941,8 +957,35 @@ function submitAll() {
     });
 }
 
+// ==================== 修复：重新答题 ====================
 function resetQuiz() {
-    startQuiz();
+    // 完全重置答题状态，重新进入答题页面
+    submitted = false;
+    currentIndex = 0;
+    userAnswers = {};
+    canvasStates = {};
+
+    // 隐藏统计面板
+    const statsPanel = document.getElementById('statsPanel');
+    if (statsPanel) statsPanel.classList.remove('show');
+
+    // 恢复得分标签
+    const scoreLabel = document.querySelector('.score-label');
+    if (scoreLabel) scoreLabel.innerHTML = '分';
+
+    // 重新渲染题目（清除之前的选择状态）
+    renderQuestions();
+
+    // 显示第一题
+    setTimeout(() => {
+        showQuestion(0);
+    }, 100);
+
+    // 更新按钮状态
+    document.getElementById('submitBtn').style.display = 'inline-flex';
+    document.getElementById('resetBtn').style.display = 'none';
+
+    updateProgress();
 }
 
 // ==================== 工具函数 ====================
