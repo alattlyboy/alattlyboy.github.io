@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线答题练习系统</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <div class="header">
+            <h1>📝 在线答题练习系统</h1>
+            <div class="subtitle" id="headerSubtitle">答题时答案隐藏 · 提交后自动验证 · 支持大题作答</div>
+        </div>
+
+        <!-- 题目配置页面 -->
+        <div id="configPage">
+            <div class="config-section">
+                <div class="config-header">
+                    <div class="config-title">📋 题目管理</div>
+                    <div class="config-actions">
+                        <button class="btn btn-primary" onclick="openJsonModal()">📁 导入JSON</button>
+                        <button class="btn btn-success" onclick="exportJsonFile()">💾 导出JSON</button>
+                        <button class="btn btn-secondary" onclick="loadDemo()">🎯 示例</button>
+                        
+                    </div>
+                </div>
+
+                <!-- 题目列表 -->
+                <div class="question-list" id="questionList"></div>
+
+                <!-- 添加题目表单 -->
+                <div class="add-question-form" id="addForm">
+                    <div class="form-title">➕ 添加/编辑题目</div>
+                    <div class="form-row">
+                        <label>题型</label>
+                        <select id="formType" onchange="onTypeChange()">
+                            <option value="single">单选题</option>
+                            <option value="multi">多选题</option>
+                            <option value="judge">判断题</option>
+                            <option value="fill">填空题</option>
+                            <option value="essay">大题</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label>题目内容</label>
+                        <textarea id="formTitle" placeholder="请输入题目内容，填空题用 ____ 表示填空位置，大题可描述作答要求"></textarea>
+                    </div>
+                    <!-- 大题附件上传 -->
+                    <div class="form-row" id="formAttachmentRow" style="display:none;">
+                        <label>题目附件（图片）</label>
+                        <div class="file-upload-area" id="attachmentUploadArea">
+                            <input type="file" id="formAttachment" accept="image/*" onchange="handleAttachmentUpload(event)" style="display:none;">
+                            <div class="upload-placeholder" onclick="document.getElementById('formAttachment').click()">
+                                <span>📷 点击上传题目图片</span>
+                            </div>
+                            <div class="upload-preview" id="attachmentPreview" style="display:none;">
+                                <img id="attachmentPreviewImg" src="" alt="预览">
+                                <button class="btn-small btn-delete" onclick="removeAttachment()">🗑️ 删除</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row" id="formOptionsRow">
+                        <label>选项（每行一个）</label>
+                        <textarea id="formOptions" placeholder="选项A&#10;选项B&#10;选项C&#10;选项D"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <label>正确答案 / 参考答案</label>
+                        <textarea id="formAnswer" placeholder="单选填A/B/C/D，多选填A,C,D，判断填A(对)或B(错)，填空填答案，大题填写参考答案"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" onclick="saveQuestion()">💾 保存题目</button>
+                        <button class="btn btn-secondary" onclick="cancelEdit()">❌ 取消</button>
+                    </div>
+                </div>
+
+                <div class="btn-group" style="margin-top:20px;">
+                    <button class="btn btn-success btn-large" onclick="startQuiz()" id="startBtn" style="display:none;">🚀 开始答题</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 答题页面 -->
+        <div id="quizPage" style="display:none;">
+            <!-- 统计面板 -->
+            <div class="stats-panel" id="statsPanel">
+                <div class="score-display">
+                    <div class="score-number" id="scoreNumber">0</div>
+                    <div class="score-label">分</div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-num" id="correctNum">0</div>
+                        <div class="stat-label">✓ 答对</div>
+                    </div>
+                    <div class="stat-item wrong-stat">
+                        <div class="stat-num" id="wrongNum">0</div>
+                        <div class="stat-label">✗ 答错</div>
+                    </div>
+                    <div class="stat-item total-stat">
+                        <div class="stat-num" id="totalNum">0</div>
+                        <div class="stat-label">📊 总计</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 进度条 -->
+            <div class="progress-section" id="progressSection">
+                <div class="progress-header">
+                    <span class="progress-title">答题进度</span>
+                    <span class="progress-count" id="progressCount">0/0</span>
+                </div>
+                <div class="progress-bar-track">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+
+            <!-- 题目导航 -->
+            <div class="nav-section" id="navSection">
+                <div class="nav-title">🔢 题目导航（点击跳转）</div>
+                <div class="nav-grid" id="navGrid"></div>
+            </div>
+
+            <!-- 题目容器 -->
+            <div id="questionsContainer"></div>
+
+            <!-- 按钮组 -->
+            <div class="btn-group" id="actionButtons">
+                <button class="btn btn-secondary" id="prevBtn" onclick="prevQuestion()">⬅ 上一题</button>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">下一题 ➡</button>
+                <button class="btn btn-success" id="submitBtn" onclick="submitAll()">✅ 提交答案</button>
+                <button class="btn btn-danger" id="resetBtn" onclick="resetQuiz()" style="display:none;">🔄 重新答题</button>
+            </div>
+
+            <div class="btn-group" style="margin-top:15px;">
+                <button class="btn btn-secondary" onclick="backToConfig()">🔙 返回题目管理</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 隐藏的文件输入 -->
+    <input type="file" id="fileInput" accept=".json" style="display:none;" onchange="handleFileSelect(event)">
+
+    <!-- JSON格式说明弹窗 -->
+    <div class="modal-overlay" id="jsonHelpModal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📖 JSON 格式说明</h2>
+                <button class="modal-close" onclick="closeJsonHelp()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="help-section">
+                    <h3>🔤 题型 type 值</h3>
+                    <div class="help-table">
+                        <div class="help-row help-header">
+                            <span>type</span>
+                            <span>题型</span>
+                            <span>answer 格式</span>
+                        </div>
+                        <div class="help-row">
+                            <span><code>single</code></span>
+                            <span>单选题</span>
+                            <span>单个字母 "A"</span>
+                        </div>
+                        <div class="help-row">
+                            <span><code>multi</code></span>
+                            <span>多选题</span>
+                            <span>字母数组 ["A","C"]</span>
+                        </div>
+                        <div class="help-row">
+                            <span><code>judge</code></span>
+                            <span>判断题</span>
+                            <span>"A"(对) 或 "B"(错)</span>
+                        </div>
+                        <div class="help-row">
+                            <span><code>fill</code></span>
+                            <span>填空题</span>
+                            <span>字符串或数组</span>
+                        </div>
+                        <div class="help-row">
+                            <span><code>essay</code></span>
+                            <span>大题</span>
+                            <span>参考答案文本</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="help-section">
+                    <h3>📋 各题型完整示例</h3>
+                    <div class="code-block">
+<pre>[
+  {
+    "type": "single",
+    "title": "TCP/IP中IP协议位于哪一层？",
+    "options": ["应用层", "传输层", "网络层", "数据链路层"],
+    "answer": "C"
+  },
+  {
+    "type": "multi",
+    "title": "哪些是合法IP地址？",
+    "options": ["192.168.1.1", "256.1.1.1", "10.0.0.1"],
+    "answer": ["A", "C"]
+  },
+  {
+    "type": "judge",
+    "title": "子网掩码中1代表网络部分。",
+    "options": ["对", "错"],
+    "answer": "A"
+  },
+  {
+    "type": "fill",
+    "title": "IPv4地址使用____位二进制数表示。",
+    "answer": "32"
+  },
+  {
+    "type": "essay",
+    "title": "请画出TCP三次握手过程。",
+    "answer": "第一次握手：客户端发送SYN..."
+  }
+]</pre>
+                    </div>
+                </div>
+
+                <div class="help-section">
+                    <h3>⚠️ 注意事项</h3>
+                    <ul class="help-list">
+                        <li>整个 JSON 是一个<strong>数组</strong>，每道题是一个对象</li>
+                        <li>多选题 <code>type</code> 必须写 <code>"multi"</code>，不能写 <code>"multiple"</code></li>
+                        <li>判断题 <code>options</code> 固定为 <code>["对", "错"]</code></li>
+                        <li>大题 <code>options</code> 为空数组 <code>[]</code></li>
+                        <li>填空题用 <code>____</code> 表示填空位置</li>
+                        <li>图片用 base64 编码的字符串（可选）</li>
+                    </ul>
+                </div>
+
+                <div class="help-section">
+                    <h3>🐍 Python 图片识别转 JSON</h3>
+                    <div class="code-block">
+<pre># 安装依赖：pip install pytesseract pillow
+
+import pytesseract
+from PIL import Image
+import json
+import re
+
+def image_to_json(image_path):
+    """识别图片中的题目并转为JSON"""
+    # 1. 读取图片并识别文字
+    img = Image.open(image_path)
+    text = pytesseract.image_to_string(img, lang='chi_sim+eng')
+
+    # 2. 解析题目（示例：按题号分割）
+    questions = []
+    # 这里需要根据实际图片格式调整解析逻辑
+    # 示例：假设题目格式为 "1. 题目内容 A.xxx B.xxx C.xxx D.xxx"
+
+    # 简单的正则匹配示例
+    pattern = r'(\d+)\.\s*(.+?)\s*A\.\s*(.+?)\s*B\.\s*(.+?)\s*C\.\s*(.+?)\s*D\.\s*(.+)'
+    matches = re.findall(pattern, text, re.DOTALL)
+
+    for match in matches:
+        num, title, optA, optB, optC, optD = match
+        questions.append({
+            "type": "single",
+            "title": title.strip(),
+            "options": [
+                f"A.{optA.strip()}",
+                f"B.{optB.strip()}",
+                f"C.{optC.strip()}",
+                f"D.{optD.strip()}"
+            ],
+            "answer": "C"  # 需要手动设置正确答案
+        })
+
+    # 3. 保存为JSON文件
+    with open('questions.json', 'w', encoding='utf-8') as f:
+        json.dump(questions, f, ensure_ascii=False, indent=2)
+
+    return questions
+
+# 使用
+# image_to_json('exam_paper.png')
+</pre>
+                    </div>
+                    <p class="help-note">💡 提示：OCR识别准确率有限，识别后建议人工校对。对于复杂排版，建议使用专门的题库识别工具或手动录入。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+
+    <!-- JSON格式说明弹窗 -->
+    <div class="modal-overlay" id="jsonModal" style="display:none;" onclick="closeJsonModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2>📋 JSON 格式说明</h2>
+                <button class="modal-close" onclick="closeJsonModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h3>一、type 值（题型）</h3>
+                    <div class="type-list">
+                        <div class="type-item">
+                            <code>single</code>
+                            <span class="type-name">单选题</span>
+                            <span class="type-desc">answer 填单个字母如 "A"</span>
+                        </div>
+                        <div class="type-item">
+                            <code>multi</code>
+                            <span class="type-name">多选题</span>
+                            <span class="type-desc">answer 填字母数组如 ["A","C"]</span>
+                        </div>
+                        <div class="type-item">
+                            <code>judge</code>
+                            <span class="type-name">判断题</span>
+                            <span class="type-desc">options 固定 ["对","错"] / answer 填 "A"(对) 或 "B"(错)</span>
+                        </div>
+                        <div class="type-item">
+                            <code>fill</code>
+                            <span class="type-name">填空题</span>
+                            <span class="type-desc">answer 填字符串或字符串数组</span>
+                        </div>
+                        <div class="type-item">
+                            <code>essay</code>
+                            <span class="type-name">大题</span>
+                            <span class="type-desc">支持文字+画图+图片 / options 为空数组 []</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <h3>二、各题型完整示例</h3>
+                    <div class="example-block">
+                        <div class="example-label">【single / 单选题】</div>
+                        <pre>{
+  "type": "single",
+  "title": "TCP/IP协议中，IP协议位于哪一层？",
+  "options": ["应用层", "传输层", "网络层", "数据链路层"],
+  "answer": "C"
+}</pre>
+                    </div>
+                    <div class="example-block">
+                        <div class="example-label">【multi / 多选题】</div>
+                        <pre>{
+  "type": "multi",
+  "title": "以下哪些是合法的IP地址？",
+  "options": ["192.168.1.1", "256.1.1.1", "10.0.0.1"],
+  "answer": ["A", "C"]
+}</pre>
+                    </div>
+                    <div class="example-block">
+                        <div class="example-label">【judge / 判断题】</div>
+                        <pre>{
+  "type": "judge",
+  "title": "子网掩码中，二进制的1代表网络部分。",
+  "options": ["对", "错"],
+  "answer": "A"
+}</pre>
+                    </div>
+                    <div class="example-block">
+                        <div class="example-label">【fill / 填空题】</div>
+                        <pre>{
+  "type": "fill",
+  "title": "IPv4地址使用____位二进制数表示。",
+  "answer": "32"
+}</pre>
+                    </div>
+                    <div class="example-block">
+                        <div class="example-label">【essay / 大题】</div>
+                        <pre>{
+  "type": "essay",
+  "title": "请画出TCP三次握手的过程。",
+  "answer": "参考答案内容"
+}</pre>
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <h3>三、字段说明</h3>
+                    <table class="field-table">
+                        <tr><th>字段</th><th>必填</th><th>说明</th></tr>
+                        <tr><td>type</td><td>是</td><td>题型标识：single/multi/judge/fill/essay</td></tr>
+                        <tr><td>title</td><td>是</td><td>题目内容，填空题用____表示填空位置</td></tr>
+                        <tr><td>options</td><td>条件</td><td>单选/多选/判断必填，大题填[]</td></tr>
+                        <tr><td>answer</td><td>是</td><td>正确答案（单选填字母/多选填数组/判断填A或B/填空填字符串/大题填参考答案）</td></tr>
+                        <tr><td>attachments</td><td>否</td><td>题目图片数组（base64），大题可选</td></tr>
+                    </table>
+                </div>
+
+                <div class="modal-section">
+                    <h3>四、注意事项</h3>
+                    <ul class="notice-list">
+                        <li>⚠️ type 值必须是 <code>single/multi/judge/fill/essay</code>，不能写 <code>multiple</code></li>
+                        <li>⚠️ judge 题 options 必须固定为 <code>["对","错"]</code>，answer 只能填 <code>"A"</code> 或 <code>"B"</code></li>
+                        <li>⚠️ fill 题 answer 可以是字符串或字符串数组（多个正确答案）</li>
+                        <li>⚠️ essay 题 options 为空数组 <code>[]</code></li>
+                        <li>⚠️ 整个 JSON 文件是一个数组，每道题是一个对象</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeJsonModal(); setTimeout(function(){ document.getElementById('fileInput').click(); }, 100);">📁 选择JSON文件导入</button>
+                <button class="btn btn-secondary" onclick="closeJsonModal()">关闭</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
